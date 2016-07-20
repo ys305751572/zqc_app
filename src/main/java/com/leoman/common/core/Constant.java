@@ -37,4 +37,6 @@ public interface Constant {
     String TEMP_FROMUSERID = "";
 
     String TEMP_COUPONID = "";
+
+    String CACHE_USER = "_CACHE_USER";
 }

@@ -9,20 +9,64 @@
       http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
     <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
-        <property name="maxIdle" value="${redis.maxIdle}" />
+       <!-- <property name="maxIdle" value="${redis.maxIdle}" />
         <property name="maxActive" value="${redis.maxActive}" />
         <property name="maxWait" value="${redis.maxWait}" />
-        <property name="testOnBorrow" value="${redis.testOnBorrow}" />
+        <property name="maxTotal" value="${redis.maxTotal}"/>
+        <property name="maxWaitMillis" value="${redis.maxWait}"/>
+        <property name="testOnBorrow" value="${redis.testOnBorrow}" />-->
+        <property name="maxTotal" value="${redis.maxTotal}"/>
+        <property name="maxIdle" value="${redis.maxIdle}"/>
+        <property name="maxWaitMillis" value="${redis.maxWait}"/>
+        <property name="minIdle" value="${redis.minIdle}"/>
+        <property name="numTestsPerEvictionRun" value="${redis.numTestsPerEvictionRun}"/>
+        <property name="testOnBorrow" value="${redis.testOnBorrow}"/>
+        <property name="testOnReturn" value="${redis.testOnReturn}"/>
+        <property name="testWhileIdle" value="${redis.testWhileIdle}"/>
     </bean>
 
-    <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+    <!--<bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
           p:hostName="${redis.host}"
           p:port="${redis.port}"
           p:password="${redis.pass}"
-          p:poolConfig-ref="poolConfig"/>
+          p:poolConfig-ref="poolConfig"/>-->
 
-    <bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
+    <!--<bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
         <property name="connectionFactory"   ref="connectionFactory" />
+    </bean>-->
+
+
+
+    <bean id="jedisPool" class="redis.clients.jedis.JedisPool" destroy-method="destroy">
+        <constructor-arg ref="poolConfig" name="poolConfig"/>
+        <constructor-arg value="${redis.host}" name="host" type="java.lang.String"/>
+        <constructor-arg value="${redis.port}" name="port" type="int"/>
+    </bean>
+
+    <bean id="redisUtils" class="com.leoman.cache.utils.RedisUtils">
+        <property name="jedisPool" ref="jedisPool" />
+        <property name="serverName" value="zqc-web" />
+    </bean>
+
+    <bean id="redisCacheServiceImpl" class="com.leoman.cache.common.impl.RedisCacheServiceImpl" >
+        <property name="redisUtils" ref="redisUtils" />
+    </bean>
+
+
+    <bean id="commonStringCache" class="com.leoman.cache.service.impl.CommonStringCacheImpl">
+        <constructor-arg index="0" ref="redisCacheServiceImpl" />
+    </bean>
+    <bean id="commonObjectCache" class="com.leoman.cache.service.impl.CommonObjectCacheImpl">
+        <constructor-arg index="0" ref="redisCacheServiceImpl" />
+    </bean>
+    <bean id="commonMapCache" class="com.leoman.cache.service.impl.CommonMapCacheImpl">
+        <constructor-arg index="0" ref="redisCacheServiceImpl" />
+    </bean>
+    <bean id="commonStringListCache" class="com.leoman.cache.service.impl.CommonStringListCacheImpl">
+        <constructor-arg index="0" ref="redisCacheServiceImpl" />
+    </bean>
+    <bean id="commonObjectListCache" class="com.leoman.cache.service.impl.CommonObjectListCacheImpl">
+        <constructor-arg index="0" ref="redisCacheServiceImpl" />
     </bean>
 
 </beans>

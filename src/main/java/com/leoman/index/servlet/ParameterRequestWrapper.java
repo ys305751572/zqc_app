@@ -91,9 +91,15 @@ public class ParameterRequestWrapper extends HttpServletRequestWrapper {
                         this.newParams.put(param.getKey(), new String[]{param.getValue().toString()});
                     }
                 }
+                else {
+                    this.newParams.put("error", new String[] {"error"});
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+        else {
+            this.newParams.put("error", new String[] {"error"});
         }
     }
 }

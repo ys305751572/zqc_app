@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.leoman</groupId>
-	<artifactId>kdxgServer</artifactId>
+	<artifactId>zqc_app</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 
@@ -368,14 +368,20 @@
 		<dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
-			<version>2.1.0</version>
+			<version>2.8.0</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-redis -->
-		<dependency>
+		<!--<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-redis</artifactId>
 			<version>1.0.2.RELEASE</version>
+		</dependency>-->
+
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+			<version>1.6.1.RELEASE</version>
 		</dependency>
 
 
@@ -386,12 +392,12 @@
 		<profile>
 			<id>dev-localhost</id>
 			<properties>
-				<pro.jdbc.url>jdbc:mysql://localhost:3306/leoman_velocity?characterEncoding=UTF-8</pro.jdbc.url>
+				<pro.jdbc.url>jdbc:mysql://localhost:3306/zqc_db?characterEncoding=UTF-8</pro.jdbc.url>
 				<pro.jdbc.username>root</pro.jdbc.username>
 				<pro.jdbc.password>root</pro.jdbc.password>
-				<pro.upload.url>http://4.16.0.180:8081/files/upload/</pro.upload.url>
-				<pro.upload.path>D:/server/tomcat-kdxg/webapps/files/upload/</pro.upload.path>
-				<base.url>http://localhost/kdxgServer/</base.url>
+				<pro.upload.url>http://localhost:8080/files/upload/</pro.upload.url>
+				<pro.upload.path>D:/server/tomcat-zqc/webapps/files/upload/</pro.upload.path>
+				<base.url>http://localhost/zqc_app/</base.url>
 				<base.domain>http://localhost:8080</base.domain>
 			</properties>
 		</profile>
@@ -419,11 +425,23 @@
 				<base.domain>http://qq.tt</base.domain>
 			</properties>
 		</profile>
+		<profile>
+			<id>deploy-jl</id>
+			<properties>
+				<pro.jdbc.url>jdbc:mysql://4.16.1.158:3306/leoman_zqc?characterEncoding=UTF-8</pro.jdbc.url>
+				<pro.jdbc.username>root</pro.jdbc.username>
+				<pro.jdbc.password>root</pro.jdbc.password>
+				<pro.upload.url>http://4.16.0.215:8081/files/upload/</pro.upload.url>
+				<pro.upload.path>D:/devsoftware/apache-tomcat-7.0.67/webapps/files/upload/</pro.upload.path>
+				<base.url>http://localhost:8081/zqc_app/</base.url>
+				<base.domain>http://localhost:8081</base.domain>
+			</properties>
+		</profile>
 	</profiles>
 
 
 	<build>
-		<finalName>yqtq</finalName>
+		<finalName>zqc_app</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
@@ -447,7 +465,7 @@
 					<artifactId>maven-war-plugin</artifactId>
 					<version>2.3</version>
 					<configuration>
-						<warName>yqtq</warName>
+						<warName>zqc_app</warName>
 					</configuration>
 				</plugin>
 			</plugins>

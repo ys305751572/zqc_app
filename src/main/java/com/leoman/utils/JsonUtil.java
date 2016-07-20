@@ -48,11 +48,11 @@ public class JsonUtil {
         return Arrays.asList(list);
     }
 
-    public static String obj2Json(Object obj){
+    /*public static String obj2Json(Object obj){
         Gson gson = createGsonBuilder().create();
         return  gson.toJson(obj);
     }
-
+*/
     /**
      * java对象转换成json字符串
      * @param obj  java对象

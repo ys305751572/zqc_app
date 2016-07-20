@@ -1,5 +1,6 @@
 package com.leoman.utils;
 
+import com.leoman.enums.ErrorType;
 import org.springframework.data.domain.Page;
 
 import java.util.HashMap;
@@ -14,18 +15,18 @@ import java.util.Map;
  */
 public final class Result {
 
-	private Boolean status;                                           // 状态 0:成功 1:失败（异常）
+	private int status;                                           // 状态 0:成功 1:失败（异常）
 	private String msg;                                               // 错误信息
 	private Object data;  // 数据内容
 
-	private static final boolean SUCCESS = true;                             // 成功
-	private static final boolean ERROR = false;                               // 失败(异常)
+	private static final int SUCCESS = 0;                             // 成功
+	private static final int ERROR = 1;                               // 失败(异常)
 
-	public Boolean getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(Boolean status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
@@ -43,6 +44,13 @@ public final class Result {
 
 	public void setData(Object data) {
 		this.data = data;
+	}
+
+	public Result(){}
+
+	public Result(ErrorType errorType){
+		this.status= errorType.getCode();
+		this.msg= errorType.getName();
 	}
 
 	public static Result success(String... errorMessage) {
@@ -77,4 +85,5 @@ public final class Result {
 		}
 		return result;
 	}
+
 }

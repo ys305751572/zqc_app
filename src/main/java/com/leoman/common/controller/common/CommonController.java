@@ -1,11 +1,14 @@
 package com.leoman.common.controller.common;
 
+import com.leoman.common.core.Constant;
+import com.leoman.user.entity.UserInfo;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.leoman.common.controller.editor.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -48,5 +51,20 @@ public class CommonController {
 
         int pageNum = (start/length)+1;
         return pageNum;
+    }
+
+    public UserInfo getUserByRequest(HttpServletRequest request) {
+        Object obj = request.getAttribute(Constant.CACHE_USER);
+        if (obj == null) {
+            return null;
+        } else {
+            return (UserInfo) obj;
+        }
+    }
+
+    public Map<String,Object> createMap(String key, Object obj){
+        Map<String,Object> map = new HashMap<>();
+        map.put(key,obj);
+        return map;
     }
 }
