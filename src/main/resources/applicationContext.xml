@@ -91,6 +91,9 @@
 		<property name="persistenceUnitName" value="service.jpa" />
 	</bean>
 
+	<!-- 注解配置 -->
+	<context:annotation-config />
+
 	<!-- 配置事务管理器 -->
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
@@ -127,11 +130,11 @@
 			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
 	</context:component-scan>
     <!-- AOP -->
-	<bean id="aspectjBean" class="com.leoman.test.controller.RequestLimtContract" />
+	<!--<bean id="aspectjBean" class="com.leoman.test.controller.RequestLimtContract" />-->
 
-    <aop:aspectj-autoproxy proxy-target-class="true">
-		<aop:include name = "aspectjBean" />
-	</aop:aspectj-autoproxy>
+    <!--<aop:aspectj-autoproxy proxy-target-class="true">-->
+		<!--<aop:include name = "aspectjBean" />-->
+	<!--</aop:aspectj-autoproxy>-->
 
 	<import resource="classpath:redis-context.xml" />
 	<bean id="beanUtil" class="com.leoman.utils.BeanUtil"></bean>

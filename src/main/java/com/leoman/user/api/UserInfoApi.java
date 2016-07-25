@@ -113,11 +113,11 @@ public class UserInfoApi extends CommonController{
                          @RequestParam(required = true) String password,
                          @RequestParam(required = true) String code) throws Exception {
 
-        String cacheCode =  commonStringCache.get(REG_CODE_PREFIX+ userInfo.getMobile());
+        /*String cacheCode =  commonStringCache.get(REG_CODE_PREFIX+ userInfo.getMobile());
         if(StringUtils.isBlank(cacheCode)||!cacheCode.equals(code)){
             WebUtil.printJson(response,new Result(ErrorType.ERROR_CODE_2002));//验证码错误
             return;
-        }
+        }*/
 
         UserInfo user = userInfoService.findOne(new UserInfo(userInfo.getMobile()));
         if(user != null){
@@ -213,7 +213,7 @@ public class UserInfoApi extends CommonController{
     @RequestMapping(value = "/head/upload")
     public void userHeadUpload(HttpServletRequest request,
                                HttpServletResponse response,
-                               @RequestParam(required=true) Long userId,
+                               @RequestParam(required = true) Long userId,
                                @RequestParam(required = true) MultipartFile file)throws Exception  {
         UserInfo userInfo = getUserByRequest(request);
         if(userInfo == null){
@@ -234,7 +234,7 @@ public class UserInfoApi extends CommonController{
      * @apiDescription 使用旧密码修改密码
      *
      * @apiParam {NUMBER} userId 用户ID
-     * @apiParam {String} oldPassword  旧密码(MD5)
+     * @apiParam {String} oldPassword 旧密码(MD5)
      * @apiParam {String} newPassword 新密码(MD5)
      *
      *

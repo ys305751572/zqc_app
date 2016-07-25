@@ -40,7 +40,7 @@ public class UserInfo extends BaseEntity{
     @Column(name = "sign")
     private String sign;//index0 : 今日是否签到 0:未签到 1:已签到 index1:连续签到次数 index2:总共签到次数
 
-    @Column(name = "IDCard")
+    @Column(name = "id_card")
     private String IDCard;//身份证号
 
     @Exclude
@@ -49,6 +49,10 @@ public class UserInfo extends BaseEntity{
     private UserLogin userLogin;//用户登录
 
     public UserInfo(){};
+
+    public UserInfo(Long id) {
+        super.setId(id);
+    }
 
     public UserInfo(String mobile) {
         this.mobile = mobile;

@@ -1,39 +1,41 @@
 package com.leoman.common.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class PageVO {
-	private int start;
-	private int length;
-	private long count;
-	
-	@SuppressWarnings("unchecked")
-	private List list;
-	public int getStart() {
-		return start;
+/**
+ * Created by Administrator on 2015/12/4.
+ */
+public class PageVO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	List list ;
+
+	Page page ;
+
+
+	public PageVO(org.springframework.data.domain.Page page){
+		this.page = new Page(page.getTotalElements(),page.getTotalPages(),page.getNumber()+1);
+		this.list = page.getContent();
 	}
-	public void setStart(int start) {
-		this.start = start;
+
+
+
+	private class  Page {
+
+		Long totalNum;
+
+		Integer totalPage;
+
+		Integer currentPage;
+
+		public Page(Long totalNum, Integer totalPage, Integer currentPage){
+			this.totalNum = totalNum;
+			this.totalPage = totalPage;
+			this.currentPage = currentPage;
+		}
+
 	}
-	public int getLength() {
-		return length;
-	}
-	public void setLength(int length) {
-		this.length = length;
-	}
-	public long getCount() {
-		return count;
-	}
-	public void setCount(long count) {
-		this.count = count;
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List getList() {
-		return list;
-	}
-	@SuppressWarnings("unchecked")
-	public void setList(List list) {
-		this.list = list;
-	} 
 }
+

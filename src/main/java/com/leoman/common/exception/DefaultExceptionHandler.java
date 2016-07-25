@@ -3,6 +3,7 @@ package com.leoman.common.exception;
 import com.leoman.enums.ErrorType;
 import com.leoman.utils.Result;
 import com.leoman.utils.WebUtil;
+import org.springframework.util.StringUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,7 +27,11 @@ public class DefaultExceptionHandler implements HandlerExceptionResolver {
                 String beanName = handlerMethod.getBean().getClass().getName();
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 GeneralExceptionHandler.log(beanName + "类" + methodName + "方法" + "异常", ex);
-                WebUtil.print(response,new Result(ErrorType.ERROR_CODE_1002));//服务器异常
+                if(ex.getMessage().contains("Exception")){
+                    WebUtil.print(response,new Result(ErrorType.ERROR_CODE_1002));//服务器异常
+                }else{
+                    WebUtil.print(response,new Result().failure(ex.getMessage()));//指定的错误消息
+                }
             }
         }catch (Exception e){
             GeneralExceptionHandler.log(e);

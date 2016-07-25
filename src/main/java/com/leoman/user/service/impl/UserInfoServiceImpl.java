@@ -38,7 +38,6 @@ import java.util.List;
  * Created by Daisy on 2016/7/14.
  */
 @Service
-@Transactional
 public class UserInfoServiceImpl extends GenericManagerImpl<UserInfo,UserInfoDao> implements UserInfoService {
 
     @Autowired
