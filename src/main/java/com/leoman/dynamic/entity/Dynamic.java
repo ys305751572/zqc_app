@@ -37,6 +37,12 @@ public class Dynamic extends BaseEntity{
     @JoinColumn(name = "dynamic_id")
     private Set<DynamicImage> images;//动态图片
 
+    @Transient
+    private Boolean isCollect;//是否收藏
+
+    @Transient
+    private Boolean isPraise;//是否点赞
+
     public Dynamic(){};
 
     public Dynamic(Long id) {
@@ -97,5 +103,21 @@ public class Dynamic extends BaseEntity{
 
     public void setImages(Set<DynamicImage> images) {
         this.images = images;
+    }
+
+    public Boolean getIsCollect() {
+        return isCollect;
+    }
+
+    public void setIsCollect(Boolean isCollect) {
+        this.isCollect = isCollect;
+    }
+
+    public Boolean getIsPraise() {
+        return isPraise;
+    }
+
+    public void setIsPraise(Boolean isPraise) {
+        this.isPraise = isPraise;
     }
 }

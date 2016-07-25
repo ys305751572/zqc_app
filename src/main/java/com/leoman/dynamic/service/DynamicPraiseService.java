@@ -16,4 +16,6 @@ public interface DynamicPraiseService extends GenericManager<DynamicPraise> {
 
     public void operate(String oper, Long dynamicId, Long userId);
 
+    public DynamicPraise findByDynamicIdAndUserId(Long dynamicId, Long userId);
+
 }

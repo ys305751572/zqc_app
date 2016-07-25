@@ -19,4 +19,6 @@ public interface DynamicCollectionService extends GenericManager<DynamicCollecti
 
     public void operate(String oper, Long dynamicId, Long userId);
 
+    public DynamicCollection findByDynamicIdAndUserId(Long dynamicId, Long userId);
+
 }

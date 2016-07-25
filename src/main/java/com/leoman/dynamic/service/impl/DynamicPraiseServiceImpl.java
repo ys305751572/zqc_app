@@ -56,7 +56,14 @@ public class DynamicPraiseServiceImpl extends GenericManagerImpl<DynamicPraise,D
     }
 
     @Override
+    public DynamicPraise findByDynamicIdAndUserId(Long dynamicId, Long userId) {
+        return dynamicPraiseDao.findByDynamicIdAndUserId(dynamicId,userId);
+    }
+
+    @Override
     public List<UserInfo> findByDynamicId(Long dynamicId) {
         return dynamicPraiseDao.findByDynamicId(dynamicId);
     }
+
+
 }

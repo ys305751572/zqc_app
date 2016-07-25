@@ -1,29 +1,21 @@
-package com.leoman.user.service.impl;
+package com.leoman.task.service.impl;
 
 import com.leoman.common.service.impl.GenericManagerImpl;
-import com.leoman.user.dao.UserInfoDao;
-import com.leoman.user.dao.UserLoginDao;
-import com.leoman.user.entity.UserInfo;
-import com.leoman.user.entity.UserInfo;
-import com.leoman.user.entity.UserInfo;
-import com.leoman.user.entity.UserLogin;
-import com.leoman.user.service.UserInfoService;
+import com.leoman.task.dao.TaskDao;
+import com.leoman.task.entity.Task;
+import com.leoman.task.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import org.springframework.util.SystemPropertyUtils;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.servlet.http.HttpServletRequest;
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -35,62 +27,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Daisy on 2016/7/14.
+ * Created by Daisy on 2016/7/25.
  */
 @Service
-public class UserInfoServiceImpl extends GenericManagerImpl<UserInfo,UserInfoDao> implements UserInfoService {
+public class TaskServiceImpl extends GenericManagerImpl<Task,TaskDao> implements TaskService {
 
     @Autowired
-    private UserInfoDao infoDao;
-
-    @Autowired
-    private UserLoginDao loginDao;
+    private TaskDao taskDao;
 
     @Override
-    public UserInfo findByLoginId(Long loginId) {
-        return infoDao.findByLoginId(loginId);
+    public Page<Task> findAll(Task task, Integer currentPage, Integer pageSize){
+        Specification<Task> spec = buildSpecification(task);
+        return taskDao.findAll(spec, new PageRequest(currentPage-1, pageSize, Sort.Direction.ASC, "startDate"));
     }
 
-    @Override
-    public UserInfo findOne(UserInfo userInfo) throws  Exception{
-        Specification<UserInfo> spec = buildSpecification(userInfo);
-        UserInfo user = infoDao.findOne(spec);
-        return user;
-    }
+    public Specification<Task> buildSpecification(final Task task) {
 
-    @Override
-    public Page<UserInfo> findAll(UserInfo userInfo, Integer currentPage, Integer pageSize) throws Exception {
-        Specification<UserInfo> spec = buildSpecification(userInfo);
-        return infoDao.findAll(spec, new PageRequest(currentPage-1, pageSize, Sort.Direction.DESC, "id"));
-    }
-
-    @Override
-    @Transactional
-    public UserInfo create(UserInfo userInfo, String password, String ipAddress) {
-        //新增登录
-        UserLogin userLogin = new UserLogin();
-        userLogin.setUsername(userInfo.getMobile());
-        userLogin.setPassword(password);
-        userLogin.setIp_address(ipAddress);
-        userLogin.setCreateDate(System.currentTimeMillis());
-        userLogin.setUpdateDate(System.currentTimeMillis());
-        UserLogin ul = loginDao.save(userLogin);
-
-        //新增用户
-        userInfo.setUserLogin(ul);
-        UserInfo u = infoDao.save(userInfo);
-        return u;
-    }
-
-    public Specification<UserInfo> buildSpecification(final UserInfo userInfo) {
-        Specification<UserInfo> sepc = new Specification<UserInfo>() {
+        Specification<Task> sepc = new Specification<Task>() {
             @Override
-            public Predicate toPredicate(Root<UserInfo> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+            public Predicate toPredicate(Root<Task> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 try {
                     List<Predicate> predicateList = new ArrayList<Predicate>();
                     Predicate result = null;
 
-                    BeanInfo beanInfo = Introspector.getBeanInfo(userInfo.getClass());
+                    BeanInfo beanInfo = Introspector.getBeanInfo(task.getClass());
                     PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
                     for (PropertyDescriptor property : propertyDescriptors) {
                         String key = property.getName();//字段名
@@ -100,7 +60,7 @@ public class UserInfoServiceImpl extends GenericManagerImpl<UserInfo,UserInfoDao
                         if (!key.equals("class")) {
                             // 得到property对应的getter方法
                             Method getter = property.getReadMethod();
-                            Object value = getter.invoke(userInfo);
+                            Object value = getter.invoke(task);
 
                             if(value != null){
                                 //字符串用like拼接

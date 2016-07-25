@@ -1,9 +1,9 @@
 package com.leoman.dynamic.api;
 
 import com.leoman.common.controller.common.CommonController;
+import com.leoman.common.core.Configue;
 import com.leoman.common.entity.PageVO;
-import com.leoman.dynamic.entity.Dynamic;
-import com.leoman.dynamic.entity.DynamicComment;
+import com.leoman.dynamic.entity.*;
 import com.leoman.dynamic.service.*;
 import com.leoman.enums.ErrorType;
 import com.leoman.image.service.UploadImageService;
@@ -77,7 +77,7 @@ public class DynamicApi extends CommonController{
 
 
     /**
-     * @api {post} /api/dynamic/login  02、获取朋友圈列表
+     * @api {post} /api/dynamic/list  02、获取朋友圈列表
      * @apiVersion 0.0.1
      * @apiName dynamic.list
      * @apiGroup dynamic
@@ -93,6 +93,8 @@ public class DynamicApi extends CommonController{
      * @apiSuccess {String}   vedioUrl 音频路径
      * @apiSuccess {NUMBER}   isTop 是否置顶（1-是，0-否）
      * @apiSuccess {String}   status 状态（0-正常，1-删除）
+     * @apiSuccess {Boolean}  isPraise 是否点赞
+     * @apiSuccess {Boolean}  isCollect 是否收藏
      *
      * @apiSuccess {Object}   user 用户对象
      * @apiSuccess {NUMBER}   user.id 用户id
@@ -106,8 +108,26 @@ public class DynamicApi extends CommonController{
     public void list(HttpServletRequest request,
                      HttpServletResponse response,
                      @RequestParam(required=true) Integer pageNum,
-                     @RequestParam(required=true) Integer pageSize) throws Exception {
+                     @RequestParam(required=true) Integer pageSize,
+                     Long userId) throws Exception {
         Page<Dynamic> page = dynamicService.findAll(pageNum,pageSize);
+        for (Dynamic dynamic:page.getContent()) {
+            dynamic.setIsPraise(false);
+            DynamicPraise dp = dynamicPraiseService.findByDynamicIdAndUserId(dynamic.getId(),userId);
+            if(dp != null){
+                dynamic.setIsPraise(true);//是否点赞
+            }
+
+            dynamic.setIsCollect(false);
+            DynamicCollection dc = dynamicCollectionService.findByDynamicIdAndUserId(dynamic.getId(),userId);
+            if(dc != null){
+                dynamic.setIsCollect(true);//是否收藏
+            }
+
+            for (DynamicImage di:dynamic.getImages()) {
+                di.setImageUrl(Configue.getUploadUrl()+di.getImageUrl());
+            }
+        }
         WebUtil.printJson(response,new Result().success(new PageVO(page)));
     }
 
@@ -253,9 +273,9 @@ public class DynamicApi extends CommonController{
      * @apiGroup dynamic
      * @apiDescription 发表朋友圈
      *
-     * @apiParam {NUMBER} dynamicId 动态id
-     * @apiParam {NUMBER} fromUserId 评论发起人id
-     * @apiParam {NUMBER} toUserId 评论接收人id
+     * @apiParam {STRING} dynamic.id 动态id
+     * @apiParam {STRING} fromUser.id 评论发起人id
+     * @apiParam {STRING} toUser.id 评论接收人id
      * @apiParam {STRING} content 内容
      */
     @RequestMapping("comment/add")
@@ -277,18 +297,17 @@ public class DynamicApi extends CommonController{
      *
      * @apiParam {NUMBER} dynamicId 动态id
      *
-     * @apiSuccess {Object}   list  朋友圈列表集合
-     * @apiSuccess {NUMBER}   id 动态id
-     * @apiSuccess {String}   title 标题
-     * @apiSuccess {String}   content 内容
-     * @apiSuccess {String}   vedioUrl 音频路径
-     * @apiSuccess {NUMBER}   isTop 是否置顶（1-是，0-否）
-     * @apiSuccess {String}   status 状态（0-正常，1-删除）
+     * @apiSuccess {NUMBER}   id 评论id
+     * @apiSuccess {String}   content 评论内容
+     * @apiSuccess {String}   createDate 评论时间
      *
-     * @apiSuccess {Object}   user 用户对象
-     * @apiSuccess {NUMBER}   user.id 用户id
-     * @apiSuccess {NUMBER}   user.nickname 用户昵称
-     * @apiSuccess {String}   user.avater 用户头像
+     * @apiSuccess {Object}   fromUser 发起评论用户对象
+     * @apiSuccess {NUMBER}   fromUser.id 用户id
+     * @apiSuccess {NUMBER}   fromUser.nickname 用户昵称
+     *
+     * @apiSuccess {Object}   toUser 被评论用户对象
+     * @apiSuccess {NUMBER}   toUser.id 用户id
+     * @apiSuccess {NUMBER}   toUser.nickname 用户昵称
      *
      * @apiSuccess {Object}   images 图片对象
      * @apiSuccess {String}   images.imageUrl 图片路径
@@ -300,6 +319,37 @@ public class DynamicApi extends CommonController{
 
         List<DynamicComment> commentList = dynamicCommentService.findByDynamicId(dynamicId);
         WebUtil.printJson(response,new Result().success(createMap("list",commentList)));
+    }
+
+    /**
+     * @api {post} /api/dynamic/comment/delete  09、删除自己发起的评论
+     * @apiVersion 0.0.1
+     * @apiName dynamic.commentDelete
+     * @apiGroup dynamic
+     * @apiDescription 删除自己发起的评论
+     *
+     * @apiParam {NUMBER} userId 当前登录用户id
+     * @apiParam {NUMBER} commentId 动态id
+     */
+    @RequestMapping("comment/delete")
+    public void commentDelete(HttpServletRequest request,
+                       HttpServletResponse response,
+                       @RequestParam(required = true) Long commentId,
+                       @RequestParam(required = true) Long userId) throws Exception {
+        DynamicComment dynamicComment = dynamicCommentService.queryByPK(commentId);
+        if(dynamicComment == null){
+            WebUtil.printJson(response,new Result(ErrorType.ERROR_CODE_1001));//未找到数据
+            return ;
+        }
+
+        if(!dynamicComment.getFromUser().getId().equals(userId)){
+            WebUtil.printJson(response,new Result(ErrorType.ERROR_CODE_3001));//无法删除他人数据
+            return ;
+        }
+
+        //删除评论
+        dynamicCommentService.delete(dynamicComment);
+        WebUtil.printJson(response,new Result().success());
     }
 
 

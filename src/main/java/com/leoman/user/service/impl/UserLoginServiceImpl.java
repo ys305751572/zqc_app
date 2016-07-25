@@ -52,18 +52,7 @@ public class UserLoginServiceImpl extends GenericManagerImpl<UserLogin,UserLogin
     }
 
     public Specification<UserLogin> buildSpecification(final UserLogin userLogin) {
-        /*return new Specification<UserLogin>() {
-            @Override
-            public Predicate toPredicate(Root<UserLogin> root, CriteriaQuery<?> cq,
-                                         CriteriaBuilder cb) {
-                List<Predicate> list = new ArrayList<Predicate>();
 
-
-
-                Predicate[] p = new Predicate[list.size()];
-                return cb.and(list.toArray(p));
-            }
-        };*/
         Specification<UserLogin> sepc = new Specification<UserLogin>() {
             @Override
             public Predicate toPredicate(Root<UserLogin> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
@@ -88,7 +77,7 @@ public class UserLoginServiceImpl extends GenericManagerImpl<UserLogin,UserLogin
                                 if(type.equals(String.class) && !StringUtils.isEmpty(value)){
                                     Predicate predicate = cb.like(root.get(key).as(String.class), "%"+value+"%");
                                     predicateList.add(predicate);
-                                }else{
+                                }else if(type.equals(Integer.class)){
                                     Predicate predicate = cb.equal(root.get(key).as(Integer.class), value);
                                     predicateList.add(predicate);
                                 }
@@ -113,62 +102,5 @@ public class UserLoginServiceImpl extends GenericManagerImpl<UserLogin,UserLogin
         };
         return sepc;
     }
-
-
-    /**
-     * 自定义根据条件查询
-     * @param userLogin
-     * @return
-     */
-    /*public Specification<UserLogin> querySpecification(final UserLogin userLogin) {
-        Specification<UserLogin> sepc = new Specification<UserLogin>() {
-            @Override
-            public Predicate toPredicate(Root<UserLogin> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                try {
-                    List<Predicate> predicateList = new ArrayList<Predicate>();
-                    Predicate result = null;
-
-                    BeanInfo beanInfo = Introspector.getBeanInfo(userLogin.getClass());
-                    PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
-                    for (PropertyDescriptor property : propertyDescriptors) {
-                        String key = property.getName();//字段名
-                        Type type = property.getPropertyType();//字段类型
-
-                        // 过滤class属性
-                        if (!key.equals("class")) {
-                            // 得到property对应的getter方法
-                            Method getter = property.getReadMethod();
-                            Object value = getter.invoke(userLogin);
-
-                            if(value != null){
-                                //字符串用like拼接
-                                if(type.equals(String.class) && !StringUtils.isEmpty(value)){
-                                    Predicate predicate = cb.like(root.get(key).as(String.class), "%"+value+"%");
-                                    predicateList.add(predicate);
-                                }else{
-                                    Predicate predicate = cb.equal(root.get(key).as(Integer.class), value);
-                                    predicateList.add(predicate);
-                                }
-                            }
-                        }
-                    }
-                    if (predicateList.size() > 0) {
-                        result = cb.and(predicateList.toArray(new Predicate[]{}));
-                    }
-                    if (result != null) {
-                        query.where(result);
-                    }
-                } catch (IntrospectionException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-                return query.getRestriction();
-            }
-        };
-        return sepc;
-    }*/
 
 }

@@ -54,6 +54,11 @@ public class DynamicCollectionServiceImpl extends GenericManagerImpl<DynamicColl
     }
 
     @Override
+    public DynamicCollection findByDynamicIdAndUserId(Long dynamicId, Long userId) {
+        return dynamicCollectionDao.findByDynamicIdAndUserId(dynamicId,userId);
+    }
+
+    @Override
     public Page<Dynamic> findByDyUserId(Long userId, Integer pageNum, Integer pageSize){
         return dynamicCollectionDao.findByDyUserId(userId, new PageRequest(pageNum - 1, pageSize, Sort.Direction.DESC, "id"));
     }

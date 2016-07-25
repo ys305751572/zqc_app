@@ -1,5 +1,6 @@
 package com.leoman.dynamic.entity;
 
+import com.leoman.common.annotion.Exclude;
 import com.leoman.common.entity.BaseEntity;
 import com.leoman.user.entity.UserInfo;
 
@@ -14,6 +15,7 @@ import java.util.Set;
 @Table(name = "t_dynamic_comment")
 public class DynamicComment extends BaseEntity{
 
+    @Exclude
     @ManyToOne
     @JoinColumn(name = "dynamic_id")
     private Dynamic dynamic;//动态
