@@ -26,16 +26,16 @@ public class UserInfo extends BaseEntity{
     private String avater;//头像
 
     @Column(name = "status")
-    private String status;//状态 0:正常 1:冻结
+    private Integer status;//状态 0:正常 1:冻结
 
     @Column(name = "level")
-    private String level;//会员等级
+    private Integer level;//会员等级
 
     @Column(name = "integral")
-    private String integral;//积分
+    private Integer integral;//积分
 
     @Column(name = "ym")
-    private String ym;//益米
+    private Integer ym;//益米
 
     @Column(name = "sign")
     private String sign;//index0 : 今日是否签到 0:未签到 1:已签到 index1:连续签到次数 index2:总共签到次数
@@ -90,35 +90,35 @@ public class UserInfo extends BaseEntity{
         this.avater = avater;
     }
 
-    public String getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
-    public String getLevel() {
+    public Integer getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
 
-    public String getIntegral() {
+    public Integer getIntegral() {
         return integral;
     }
 
-    public void setIntegral(String integral) {
+    public void setIntegral(Integer integral) {
         this.integral = integral;
     }
 
-    public String getYm() {
+    public Integer getYm() {
         return ym;
     }
 
-    public void setYm(String ym) {
+    public void setYm(Integer ym) {
         this.ym = ym;
     }
 

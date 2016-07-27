@@ -85,8 +85,13 @@ public class UserInfoApi extends CommonController{
             if(!userLogin.getPassword().equals(ul.getPassword())){
                 WebUtil.print(response,new Result(ErrorType.ERROR_CODE_2003));//密码错误
             }
+
             //登录成功后，返回当前用户信息
             UserInfo user = userInfoService.findByLoginId(ul.getId());
+
+            if(user.getStatus().equals(1)){
+                WebUtil.print(response,new Result(ErrorType.ERROR_CODE_3002));//用户被冻结
+            }
             WebUtil.printJson(response,new Result().success(createMap("user", user)));
         } catch (Exception e) {
             e.printStackTrace();
@@ -113,11 +118,11 @@ public class UserInfoApi extends CommonController{
                          @RequestParam(required = true) String password,
                          @RequestParam(required = true) String code) throws Exception {
 
-        /*String cacheCode =  commonStringCache.get(REG_CODE_PREFIX+ userInfo.getMobile());
+        String cacheCode =  commonStringCache.get(REG_CODE_PREFIX+ userInfo.getMobile());
         if(StringUtils.isBlank(cacheCode)||!cacheCode.equals(code)){
             WebUtil.printJson(response,new Result(ErrorType.ERROR_CODE_2002));//验证码错误
             return;
-        }*/
+        }
 
         UserInfo user = userInfoService.findOne(new UserInfo(userInfo.getMobile()));
         if(user != null){

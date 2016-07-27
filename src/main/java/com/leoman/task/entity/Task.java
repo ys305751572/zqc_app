@@ -54,6 +54,15 @@ public class Task extends BaseEntity{
     @Column(name = "detail")
     private String detail;//详情
 
+    @Transient
+    private Integer joinStatus;//参加状态
+
+    public Task(){}
+
+    public Task(Long id) {
+        this.setId(id);
+    }
+
     public Integer getType() {
         return type;
     }
@@ -156,5 +165,13 @@ public class Task extends BaseEntity{
 
     public void setDetail(String detail) {
         this.detail = detail;
+    }
+
+    public Integer getJoinStatus() {
+        return joinStatus;
+    }
+
+    public void setJoinStatus(Integer joinStatus) {
+        this.joinStatus = joinStatus;
     }
 }

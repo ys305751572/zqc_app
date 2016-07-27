@@ -78,6 +78,13 @@ public class UserInfoServiceImpl extends GenericManagerImpl<UserInfo,UserInfoDao
 
         //新增用户
         userInfo.setUserLogin(ul);
+        userInfo.setGender(0);
+        userInfo.setIntegral(0);
+        userInfo.setYm(0);
+        userInfo.setLevel(1);
+        userInfo.setSign("0|0|0");
+        userInfo.setCreateDate(System.currentTimeMillis());
+        userInfo.setUpdateDate(System.currentTimeMillis());
         UserInfo u = infoDao.save(userInfo);
         return u;
     }

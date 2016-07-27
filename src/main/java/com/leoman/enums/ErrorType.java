@@ -19,6 +19,7 @@ public enum ErrorType {
     ERROR_CODE_2012("验证超时，请重新验证",2012),
     ERROR_CODE_2013("手机号不存在",2013),
     ERROR_CODE_3001("当前登录人无法删除他人的数据",3001),
+    ERROR_CODE_3002("用户被冻结",3002),
 
 
     ErrorType;
