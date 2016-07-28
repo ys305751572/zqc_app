@@ -67,9 +67,20 @@ public class TaskServiceImpl extends GenericManagerImpl<Task,TaskDao> implements
                                 if(type.equals(String.class) && !StringUtils.isEmpty(value)){
                                     Predicate predicate = cb.like(root.get(key).as(String.class), "%"+value+"%");
                                     predicateList.add(predicate);
+                                }else if(type.equals(Long.class)){
+                                    Predicate predicate = cb.equal(root.get(key).as(Long.class), value);
+                                    predicateList.add(predicate);
                                 }else if(type.equals(Integer.class)){
                                     Predicate predicate = cb.equal(root.get(key).as(Integer.class), value);
                                     predicateList.add(predicate);
+                                }
+                                //如果字段为type时
+                                else if("type".equals(key)){
+                                    //益起来任务，则只筛选未过期的任务
+                                    if(value.toString().equals(1)){
+                                        Predicate predicate = cb.gt(root.get("startDate").as(Long.class), System.currentTimeMillis());
+                                        predicateList.add(predicate);
+                                    }
                                 }
                             }
                         }

@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.Query;
  */
 public interface TeamUserDao extends IBaseJpaRepository<TeamUser> {
 
-    @Query("select a from TeamUser a where a.user.id = ?1")
+    @Query("select a from TeamUser a where a.userId = ?1")
     public TeamUser findByUserId(Long userId);
 
 }

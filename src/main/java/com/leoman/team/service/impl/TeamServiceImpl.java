@@ -32,6 +32,10 @@ public class TeamServiceImpl extends GenericManagerImpl<Team,TeamDao> implements
     /**
      * 创建一个团队
      * @param name
+     * @param slogan
+     * @param userId
+     * @param cover
+     * @return
      */
     @Override
     public Team create(String name, String slogan, Long userId, MultipartFile cover) {
@@ -42,7 +46,7 @@ public class TeamServiceImpl extends GenericManagerImpl<Team,TeamDao> implements
 
         TeamUser tu = teamUserDao.findByUserId(userId);
         if(tu != null){
-            GeneralExceptionHandler.handle("该用户已在团队："+ tu.getTeam().getName());
+            GeneralExceptionHandler.handle("该用户已在其他团队：");
         }
 
         String coverUrl = uploadImageService.uploadFile(cover);
@@ -57,14 +61,16 @@ public class TeamServiceImpl extends GenericManagerImpl<Team,TeamDao> implements
         team.setIntegral(0);
         team.setYm(0);
         team.setNums(1);
+        team.setLevel(1);
         team.setCreateDate(System.currentTimeMillis());
         team.setUpdateDate(System.currentTimeMillis());
         teamDao.save(team);
 
         //新增团队成员
         TeamUser teamUser = new TeamUser();
-        teamUser.setTeam(team);
-        teamUser.setUser(new UserInfo(userId));
+        teamUser.setTeamId(team.getId());
+        teamUser.setUserId(userId);
+        teamUser.setIsHeader(1);
         teamUser.setCreateDate(System.currentTimeMillis());
         teamUser.setUpdateDate(System.currentTimeMillis());
         teamUserDao.save(teamUser);
@@ -72,24 +78,58 @@ public class TeamServiceImpl extends GenericManagerImpl<Team,TeamDao> implements
         return team;
     }
 
+    /**
+     * 加入一个团队
+     * @param teamId
+     * @param userId
+     */
     @Override
     public void join(Long teamId, Long userId) {
         TeamUser tu = teamUserDao.findByUserId(userId);
         if(tu != null){
-            GeneralExceptionHandler.handle("该用户已在团队："+tu.getTeam().getName());
+            GeneralExceptionHandler.handle("该用户已在其他团队");
         }
 
         //新增团队成员
         TeamUser teamUser = new TeamUser();
-        teamUser.setTeam(new Team(teamId));
-        teamUser.setUser(new UserInfo(userId));
+        teamUser.setTeamId(teamId);
+        teamUser.setUserId(userId);
+        teamUser.setIsHeader(0);
         teamUser.setCreateDate(System.currentTimeMillis());
         teamUser.setUpdateDate(System.currentTimeMillis());
         teamUserDao.save(teamUser);
 
         //修改团队人数
-        Team team = tu.getTeam();
-        team.setNums(team.getNums()+1);
-        teamDao.save(team);
+        Team team = teamDao.findOne(teamId);
+        if(team != null){
+            team.setNums(team.getNums()+1);
+            teamDao.save(team);
+        }
     }
+
+    /**
+     * 退出一个团队
+     * @param userId
+     */
+    @Override
+    public void quit(Long teamId, Long userId) {
+        TeamUser tu = teamUserDao.findByUserId(userId);
+        if(tu == null){
+            GeneralExceptionHandler.handle("该用户不在团队,或者用户所在团队不存在");
+        }
+
+        if(tu.getIsHeader().equals(1)){
+            GeneralExceptionHandler.handle("群主不能退群");
+        }
+
+        teamUserDao.delete(tu);
+
+        //修改团队人数
+        Team team = teamDao.findOne(teamId);
+        if(team != null){
+            team.setNums(team.getNums()-1);
+            teamDao.save(team);
+        }
+    }
+
 }

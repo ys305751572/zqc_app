@@ -89,14 +89,14 @@ public class TaskJoinServiceImpl extends GenericManagerImpl<TaskJoin,TaskJoinDao
                 }
 
                 //如果是团队任务，则只能队长报名
-                if(task.getJoinType().equals(2)){
+                /*if(task.getJoinType().equals(2)){
                     Team team = teamDao.findByUserId(joinId);
                     if(team == null){
                         GeneralExceptionHandler.handle("对不起，团队任务只能队长参加");
                     }else {
                         joinId = team.getId();
                     }
-                }
+                }*/
             }
 
             //新增任务参加
@@ -117,6 +117,7 @@ public class TaskJoinServiceImpl extends GenericManagerImpl<TaskJoin,TaskJoinDao
     @Override
     @Transactional
     public void createTaskJoinImage(Long taskId, Long joinId, MultipartFile[] images) {
+
         TaskJoin tj = this.findByTaskIdAndJoinId(taskId,joinId);
         if(tj == null || !tj.getStatus().equals(0)){
             GeneralExceptionHandler.handle("未参加任务，无法上传图片");

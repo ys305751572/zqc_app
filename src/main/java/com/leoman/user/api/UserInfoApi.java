@@ -72,6 +72,10 @@ public class UserInfoApi extends CommonController{
      * @apiSuccess {String}   user.ym 益米
      * @apiSuccess {String}   user.IDCard 身份证号
      * @apiSuccess {String}   user.sign index0 : 今日是否签到 0:未签到 1:已签到 index1:连续签到次数 index2:总共签到次数
+     *
+     * @apiSuccess {Object}   teamUsers  用户团队信息
+     * @apiSuccess {NUMBER}   teamUsers.teamId 团队id
+     * @apiSuccess {NUMBER}   teamUsers.isHeader 是否为群主（1-是，0-否）
      */
     @RequestMapping("login")
     public void login(HttpServletRequest request,
@@ -155,7 +159,6 @@ public class UserInfoApi extends CommonController{
         }
         WebUtil.printJson(response,getUserJson(userInfo));
     }
-
 
     /**
      * @api {post} /api/user/edit  04、修改个人信息

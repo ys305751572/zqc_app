@@ -13,27 +13,36 @@ import javax.persistence.*;
 @Table(name = "t_team_user")
 public class TeamUser extends BaseEntity{
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserInfo user;
+    @Column(name = "user_id")
+    private Long userId;
 
-    @ManyToOne
-    @JoinColumn(name = "team_id")
-    private Team team;
+    @Column(name = "team_id")
+    private Long teamId;
 
-    public UserInfo getUser() {
-        return user;
+    @Column(name = "is_header")
+    private Integer isHeader;
+
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(UserInfo user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public Team getTeam() {
-        return team;
+    public Long getTeamId() {
+        return teamId;
     }
 
-    public void setTeam(Team team) {
-        this.team = team;
+    public void setTeamId(Long teamId) {
+        this.teamId = teamId;
+    }
+
+    public Integer getIsHeader() {
+        return isHeader;
+    }
+
+    public void setIsHeader(Integer isHeader) {
+        this.isHeader = isHeader;
     }
 }

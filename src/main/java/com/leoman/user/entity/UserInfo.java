@@ -2,8 +2,10 @@ package com.leoman.user.entity;
 
 import com.leoman.common.annotion.Exclude;
 import com.leoman.common.entity.BaseEntity;
+import com.leoman.team.entity.TeamUser;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * 用户基本信息
@@ -48,7 +50,11 @@ public class UserInfo extends BaseEntity{
     @JoinColumn(name = "login_id")
     private UserLogin userLogin;//用户登录
 
-    public UserInfo(){};
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private Set<TeamUser> teamUsers;
+
+    public UserInfo(){}
 
     public UserInfo(Long id) {
         super.setId(id);
@@ -146,5 +152,11 @@ public class UserInfo extends BaseEntity{
         this.userLogin = userLogin;
     }
 
+    public Set<TeamUser> getTeamUsers() {
+        return teamUsers;
+    }
 
+    public void setTeamUsers(Set<TeamUser> teamUsers) {
+        this.teamUsers = teamUsers;
+    }
 }

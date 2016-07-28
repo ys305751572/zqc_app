@@ -41,6 +41,9 @@ public class Team extends BaseEntity{
     @Column(name = "nums")
     private Integer nums;
 
+    @Column(name = "level")
+    private Integer level;
+
     public Team(){}
 
     public Team(Long id) {
@@ -109,5 +112,13 @@ public class Team extends BaseEntity{
 
     public void setNums(Integer nums) {
         this.nums = nums;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 }

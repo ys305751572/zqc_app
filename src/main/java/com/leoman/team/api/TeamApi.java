@@ -151,7 +151,7 @@ public class TeamApi extends CommonController{
      * @apiDescription 修改团队封面
      *
      * @apiParam {NUMBER} teamId 团队ID
-     * @apiParam {FILE} file 封面
+     * @apiParam {String} slogan 口号
      */
     @RequestMapping(value = "/edit")
     public void edit(HttpServletRequest request,
@@ -169,6 +169,26 @@ public class TeamApi extends CommonController{
         }
         teamService.save(team);
         WebUtil.printJson(response,getTeamJson(team));
+    }
+
+    /**
+     * @api {post} /api/team/quit  06、退出一个团队
+     * @apiVersion 0.0.1
+     * @apiName team.quit
+     * @apiGroup team
+     * @apiDescription 退出一个团队
+     *
+     * @apiParam {NUMBER} teamId 团队id
+     * @apiParam {NUMBER} userId 用户id
+     */
+    @RequestMapping("quit")
+    public void quit(HttpServletRequest request,
+                     HttpServletResponse response,
+                     @RequestParam(required = true) Long teamId,
+                     @RequestParam(required=true) Long userId) throws Exception {
+
+        teamService.quit(teamId, userId);
+        WebUtil.printJson(response,new Result().success());
     }
 
 

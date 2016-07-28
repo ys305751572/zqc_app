@@ -3,6 +3,7 @@ package com.leoman.task.api;
 import com.leoman.common.controller.common.CommonController;
 import com.leoman.common.core.Configue;
 import com.leoman.common.entity.PageVO;
+import com.leoman.enums.ErrorType;
 import com.leoman.task.entity.Task;
 import com.leoman.task.entity.TaskJoin;
 import com.leoman.task.service.TaskJoinService;
@@ -72,6 +73,10 @@ public class TaskApi extends CommonController{
                      Task task,
                      @RequestParam(required=true) Integer pageNum,
                      @RequestParam(required=true) Integer pageSize) throws Exception {
+        if(task.getType() == null){
+            WebUtil.printJson(response,new Result(ErrorType.ERROR_CODE_1001));//type必须传
+            return ;
+        }
         Page<Task> page = taskService.findAll(task, pageNum, pageSize);
         for (Task tk:page.getContent()) {
             tk.setCoverUrl(Configue.getUploadUrl()+tk.getCoverUrl());
@@ -129,7 +134,7 @@ public class TaskApi extends CommonController{
      * @apiGroup task
      * @apiDescription 报名参加任务
      *
-     * @apiParam {NUMBER} joinId 用户id
+     * @apiParam {NUMBER} joinId 用户id或团队id
      * @apiParam {NUMBER} taskId 任务id
      */
     @RequestMapping("join")
@@ -149,7 +154,7 @@ public class TaskApi extends CommonController{
      * @apiGroup task
      * @apiDescription 报名参加任务
      *
-     * @apiParam {NUMBER} joinId 用户id或者团队id
+     * @apiParam {NUMBER} joinId 用户id或团队id
      * @apiParam {NUMBER} taskId 任务id
      */
     @RequestMapping("upload")

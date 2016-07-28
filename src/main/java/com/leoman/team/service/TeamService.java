@@ -16,4 +16,6 @@ public interface TeamService extends GenericManager<Team> {
 
     public void join(Long teamId, Long userId);
 
+    public void quit(Long teamId, Long userId);
+
 }
