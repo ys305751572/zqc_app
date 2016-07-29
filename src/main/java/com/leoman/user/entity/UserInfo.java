@@ -2,6 +2,7 @@ package com.leoman.user.entity;
 
 import com.leoman.common.annotion.Exclude;
 import com.leoman.common.entity.BaseEntity;
+import com.leoman.team.entity.Team;
 import com.leoman.team.entity.TeamUser;
 
 import javax.persistence.*;
@@ -49,6 +50,10 @@ public class UserInfo extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "login_id")
     private UserLogin userLogin;//用户登录
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private Set<Team> teams;
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
@@ -158,5 +163,13 @@ public class UserInfo extends BaseEntity{
 
     public void setTeamUsers(Set<TeamUser> teamUsers) {
         this.teamUsers = teamUsers;
+    }
+
+    public Set<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(Set<Team> teams) {
+        this.teams = teams;
     }
 }

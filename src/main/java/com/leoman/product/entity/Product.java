@@ -2,10 +2,8 @@ package com.leoman.product.entity;
 
 import com.leoman.common.entity.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
+import java.util.Set;
 
 /**
  * 商品
@@ -28,16 +26,16 @@ public class Product extends BaseEntity{
     private String detailImageUrl;//详情图片
 
     @Column(name = "type")
-    private String type;//商品类型 0:实物 1:众筹 2:广告位
+    private Integer type;//商品类型 0:实物 1:众筹 2:广告位
 
     @Column(name = "ym")
-    private String ym;//所需益米
+    private Integer ym;//所需益米
 
     @Column(name = "valid_start_date")
-    private String validStartDate;//开始有效期 type = 0
+    private Long validStartDate;//开始有效期 type = 0
 
     @Column(name = "valid_end_date")
-    private String validEndDate;//结束有效期 type = 0
+    private Long validEndDate;//结束有效期 type = 0
 
     @Column(name = "address")
     private String address;//兑换地址 type = 0
@@ -46,10 +44,14 @@ public class Product extends BaseEntity{
     private String desc;//描述
 
     @Column(name = "nums")
-    private String nums;//type = 1时所需人数
+    private Integer nums;//type = 1时所需人数
 
     @Column(name = "buy_num")
-    private String buyNum;//type = 1时已经众筹人数
+    private Integer buyNum;//type = 1时已经众筹人数
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @Column(name = "product_id")
+    private Set<ProductAds> ads;//规格
 
     public String getName() {
         return name;
@@ -75,35 +77,43 @@ public class Product extends BaseEntity{
         this.coverUrl = coverUrl;
     }
 
-    public String getType() {
+    public String getDetailImageUrl() {
+        return detailImageUrl;
+    }
+
+    public void setDetailImageUrl(String detailImageUrl) {
+        this.detailImageUrl = detailImageUrl;
+    }
+
+    public Integer getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
-    public String getYm() {
+    public Integer getYm() {
         return ym;
     }
 
-    public void setYm(String ym) {
+    public void setYm(Integer ym) {
         this.ym = ym;
     }
 
-    public String getValidStartDate() {
+    public Long getValidStartDate() {
         return validStartDate;
     }
 
-    public void setValidStartDate(String validStartDate) {
+    public void setValidStartDate(Long validStartDate) {
         this.validStartDate = validStartDate;
     }
 
-    public String getValidEndDate() {
+    public Long getValidEndDate() {
         return validEndDate;
     }
 
-    public void setValidEndDate(String validEndDate) {
+    public void setValidEndDate(Long validEndDate) {
         this.validEndDate = validEndDate;
     }
 
@@ -123,27 +133,27 @@ public class Product extends BaseEntity{
         this.desc = desc;
     }
 
-    public String getNums() {
+    public Integer getNums() {
         return nums;
     }
 
-    public void setNums(String nums) {
+    public void setNums(Integer nums) {
         this.nums = nums;
     }
 
-    public String getBuyNum() {
+    public Integer getBuyNum() {
         return buyNum;
     }
 
-    public void setBuyNum(String buyNum) {
+    public void setBuyNum(Integer buyNum) {
         this.buyNum = buyNum;
     }
 
-    public String getDetailImageUrl() {
-        return detailImageUrl;
+    public Set<ProductAds> getAds() {
+        return ads;
     }
 
-    public void setDetailImageUrl(String detailImageUrl) {
-        this.detailImageUrl = detailImageUrl;
+    public void setAds(Set<ProductAds> ads) {
+        this.ads = ads;
     }
 }

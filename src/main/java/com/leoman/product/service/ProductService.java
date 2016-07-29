@@ -13,4 +13,6 @@ public interface ProductService extends GenericManager<Product> {
 
     public Page<Product> findAll(Integer currentPage, Integer pageSize);
 
+    public void exchange(Integer joinType, Long productId, Long joinId, Integer days);
+
 }

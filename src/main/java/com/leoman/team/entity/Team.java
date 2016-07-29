@@ -16,9 +16,10 @@ import java.util.Set;
 @Table(name = "t_team")
 public class Team extends BaseEntity{
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserInfo user;
+    /*@ManyToOne
+    @JoinColumn(name = "user_id")*/
+    @Column(name = "user_id")
+    private Long userId;
 
     @Column(name = "name")
     private String name;
@@ -50,12 +51,12 @@ public class Team extends BaseEntity{
         this.setId(id);
     }
 
-    public UserInfo getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(UserInfo user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getName() {

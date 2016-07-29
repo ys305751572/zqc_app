@@ -54,7 +54,8 @@ public class TeamServiceImpl extends GenericManagerImpl<Team,TeamDao> implements
         //新增一个团队
         Team team = new Team();
         team.setName(name);
-        team.setUser(new UserInfo(userId));
+//        team.setUser(new UserInfo(userId));
+        team.setUserId(userId);
         team.setSlogan(slogan);
         team.setCoverUrl(coverUrl);
         team.setStatus(0);

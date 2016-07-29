@@ -15,7 +15,7 @@ public interface TeamDao extends IBaseJpaRepository<Team> {
     @Query("select a from Team a where a.name = ?1")
     public Team findByName(String name);
 
-    @Query("select a from Team a where a.user.id = ?1")
+    @Query("select a from Team a where a.userId = ?1")
     public Team findByUserId(Long userId);
 
 }

@@ -3,6 +3,7 @@ package com.leoman.product.api;
 import com.leoman.common.controller.common.CommonController;
 import com.leoman.common.core.Configue;
 import com.leoman.common.entity.PageVO;
+import com.leoman.enums.ErrorType;
 import com.leoman.product.entity.Product;
 import com.leoman.product.service.ProductService;
 import com.leoman.utils.Result;
@@ -12,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -61,7 +63,9 @@ public class ProductApi extends CommonController{
                      @RequestParam(required=true) Integer pageSize) throws Exception {
         Page<Product> page = productService.findAll(pageNum, pageSize);
         for (Product product:page.getContent()) {
-            product.setCoverUrl(Configue.getUploadUrl()+product.getCoverUrl());
+            if(!StringUtils.isEmpty(product.getCoverUrl())){
+                product.setCoverUrl(Configue.getUploadUrl()+product.getCoverUrl());
+            }
         }
         WebUtil.printJson(response,new Result().success(new PageVO(page)));
     }
@@ -92,11 +96,39 @@ public class ProductApi extends CommonController{
     @RequestMapping("detail")
     public void detail(HttpServletRequest request,
                      HttpServletResponse response,
-                       @RequestParam(required=true) Long productId,
-                       Long joinId) throws Exception {
+                       @RequestParam(required=true) Long productId) throws Exception {
 
         Product product = productService.queryByPK(productId);
+        if(!StringUtils.isEmpty(product.getDetailImageUrl())){
+            product.setCoverUrl(Configue.getUploadUrl()+product.getDetailImageUrl());
+        }
         WebUtil.printJson(response,new Result().success(createMap("product",product)));
+    }
+
+    /**
+     * @api {post} /api/product/detail  02、获取商品详情
+     * @apiVersion 0.0.1
+     * @apiName product.detail
+     * @apiGroup product
+     * @apiDescription 获取商品详情
+     *
+     * @apiParam {NUMBER} joinType 兑换人类型：0-个人，1-团队
+     * @apiParam {NUMBER} productId 商品id
+     * @apiParam {NUMBER} joinType 兑换人类型：0-个人，1-团队
+     */
+    @RequestMapping("exchange")
+    public void exchange(HttpServletRequest request,
+                       HttpServletResponse response,
+                         @RequestParam(required=true) Integer joinType,
+                       @RequestParam(required=true) Long productId,
+                         @RequestParam(required=true) Long joinId,
+                         Integer days) throws Exception {
+
+        if(!joinType.equals(0) && !joinType.equals(1)){
+            WebUtil.printJson(response,new Result(ErrorType.ERROR_CODE_1001));//joinType参数值不正确
+        }
+        productService.exchange(joinType, productId,joinId, days);
+        WebUtil.printJson(response,new Result().success());
     }
 
 }

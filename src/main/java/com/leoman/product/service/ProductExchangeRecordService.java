@@ -1,0 +1,15 @@
+package com.leoman.product.service;
+
+
+import com.leoman.common.service.GenericManager;
+import com.leoman.product.entity.Product;
+import com.leoman.product.entity.ProductExchangeRecord;
+import org.springframework.data.domain.Page;
+
+/**
+ * Created by Daisy on 2016/7/29.
+ */
+public interface ProductExchangeRecordService extends GenericManager<ProductExchangeRecord> {
+
+    public void create(ProductExchangeRecord per);
+}
