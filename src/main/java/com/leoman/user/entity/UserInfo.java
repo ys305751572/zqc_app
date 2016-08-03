@@ -59,6 +59,10 @@ public class UserInfo extends BaseEntity{
     @JoinColumn(name = "user_id")
     private Set<TeamUser> teamUsers;
 
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private Set<UserInfoCa> userCas;
+
     public UserInfo(){}
 
     public UserInfo(Long id) {
@@ -171,5 +175,13 @@ public class UserInfo extends BaseEntity{
 
     public void setTeams(Set<Team> teams) {
         this.teams = teams;
+    }
+
+    public Set<UserInfoCa> getUserCas() {
+        return userCas;
+    }
+
+    public void setUserCas(Set<UserInfoCa> userCas) {
+        this.userCas = userCas;
     }
 }

@@ -3,18 +3,29 @@ package com.leoman.user.api;
 import com.leoman.cache.service.CommonStringCache;
 import com.leoman.common.controller.common.CommonController;
 import com.leoman.common.core.Configue;
+import com.leoman.common.entity.PageVO;
 import com.leoman.enums.ErrorType;
 import com.leoman.image.entity.Image;
 import com.leoman.image.service.UploadImageService;
+import com.leoman.product.entity.ProductExchangeRecord;
+import com.leoman.product.service.ProductExchangeRecordService;
+import com.leoman.task.entity.Task;
+import com.leoman.task.entity.TaskJoin;
+import com.leoman.task.service.TaskJoinService;
+import com.leoman.user.entity.IntegralRecord;
 import com.leoman.user.entity.UserInfo;
 import com.leoman.user.entity.UserLogin;
+import com.leoman.user.entity.YmRecord;
+import com.leoman.user.service.IntegralRecordService;
 import com.leoman.user.service.UserInfoService;
 import com.leoman.user.service.UserLoginService;
+import com.leoman.user.service.YmRecordService;
 import com.leoman.utils.*;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,6 +60,18 @@ public class UserInfoApi extends CommonController{
 
     @Autowired
     private UploadImageService uploadImageService;//图片上传
+
+    @Autowired
+    private TaskJoinService taskJoinService;
+
+    @Autowired
+    private YmRecordService ymRecordService;
+
+    @Autowired
+    private IntegralRecordService integralRecordService;
+
+    @Autowired
+    private ProductExchangeRecordService exchangeRecordService;
 
     /**
      * @api {post} /api/user/login  01、登录
@@ -311,7 +334,7 @@ public class UserInfoApi extends CommonController{
             //发送短信
             sendSms(mobile,code);
             commonStringCache.put(cacheFlag + mobile, code,10*60);
-            WebUtil.printJson(response,new Result());
+            WebUtil.printJson(response,new Result().success(createMap("code",code)));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -354,8 +377,6 @@ public class UserInfoApi extends CommonController{
      *
      * @apiParam {String} mobile 手机号
      * @apiParam {String} newPassword 新密码(MD5)
-     *
-     *
      */
     @RequestMapping(value = "/password/reset")
     public void editPassword(HttpServletRequest request,
@@ -376,6 +397,170 @@ public class UserInfoApi extends CommonController{
         }
     }
 
+    /**
+     * @api {post} /api/user/task/list  10、获取活动记录
+     * @apiVersion 0.0.1
+     * @apiName user.taskList
+     * @apiGroup user
+     * @apiDescription 获取活动记录
+     *
+     * @apiParam {NUMBER} userId 用户id
+     * @apiParam {NUMBER} status 状态：0-进行中，1-已完成，2-未完成：
+     * @apiParam {NUMBER} pageNum 页码
+     * @apiParam {NUMBER} pageSize 每页请求数
+     *
+     * @apiSuccess {NUMBER}  id 参加id
+     * @apiSuccess {NUMBER}  joinId 用户id或团队id
+     * @apiSuccess {NUMBER}  status 状态：0-进行中，1-已完成，2-未完成
+     *
+     * @apiSuccess {Object}  task 任务对象
+     * @apiSuccess {NUMBER}  id 任务id
+     * @apiSuccess {NUMBER}  type 类型：1-益起来任务，2-脑洞开了没任务
+     * @apiSuccess {String}  name 任务名称
+     * @apiSuccess {String}  coverUrl 封面图片
+     * @apiSuccess {NUMBER}  joinType 活动类型 0:个人 1:团队
+     * @apiSuccess {NUMBER}  startDate 任务开始时间
+     * @apiSuccess {String}  endDate 任务结束时间
+     * @apiSuccess {String}  address 活动地点
+     * @apiSuccess {String}  organizers 主办方
+     * @apiSuccess {NUMBER}  nums 所需人数
+     * @apiSuccess {NUMBER}  joinNum 已参加人数
+     * @apiSuccess {NUMBER}  rewardYm 奖励益米
+     * @apiSuccess {NUMBER}  rewardIntegral 奖励积分
+     * @apiSuccess {String}  detail 详情
+     *
+     */
+    @RequestMapping("taskList")
+    public void taskList(HttpServletRequest request,
+                     HttpServletResponse response,
+                         @RequestParam(required=true) Long userId,
+                         Integer status,
+                     @RequestParam(required=true) Integer pageNum,
+                     @RequestParam(required=true) Integer pageSize) throws Exception {
+
+        Page<TaskJoin> page = taskJoinService.findByUserId(userId,status,pageNum, pageSize);
+        WebUtil.printJson(response,new Result().success(new PageVO(page)));
+    }
+
+    /**
+     * @api {post} /api/user/task/list  11、分配团队活动的益米
+     * @apiVersion 0.0.1
+     * @apiName user.allotYm
+     * @apiGroup user
+     * @apiDescription 分配团队活动的益米
+     *
+     * @apiParam {NUMBER} userId 用户id
+     * @apiParam {NUMBER} taskJoinId 活动参加id
+     * @apiParam {NUMBER} ym 每人分配益米数
+     */
+    @RequestMapping("allotYm")
+    public void allotYm(HttpServletRequest request,
+                         HttpServletResponse response,
+                         @RequestParam(required=true) Long userId,
+                        @RequestParam(required=true) Long taskJoinId,
+                        @RequestParam(required=true) Integer ym) throws Exception {
+
+        taskJoinService.allotYm(userId, taskJoinId, ym);
+        WebUtil.printJson(response,new Result().success());
+    }
+
+    /**
+     * @api {post} /api/user/ym/record  12、查询用户/团队积分记录
+     * @apiVersion 0.0.1
+     * @apiName user.integralRecord
+     * @apiGroup user
+     * @apiDescription 查询用户/团队积分记录
+     *
+     * @apiParam {NUMBER} type 类型：0-个人，1-团队
+     * @apiParam {NUMBER} joinId 用户id或团队id
+     * @apiParam {NUMBER} pageNum 页码
+     * @apiParam {NUMBER} pageSize 每页请求数
+     *
+     * @apiSuccess {NUMBER} type 类型：0-个人，1-团队
+     * @apiSuccess {NUMBER} joinId 用户id或团队id
+     * @apiSuccess {NUMBER} ym 益米增减数
+     * @apiSuccess {NUMBER} content 内容
+     */
+    @RequestMapping("integral/record")
+    public void integralRecord(HttpServletRequest request,
+                         HttpServletResponse response,
+                         @RequestParam(required=true) Integer type,
+                         @RequestParam(required=true) Long joinId,
+                         @RequestParam(required=true) Integer pageNum,
+                         @RequestParam(required=true) Integer pageSize) throws Exception {
+
+        Page<IntegralRecord> page = integralRecordService.findByJoinId(type, joinId, pageNum, pageSize);
+        WebUtil.printJson(response,new Result().success(new PageVO(page)));
+    }
+
+    /**
+     * @api {post} /api/user/ym/record  13、查询用户/团队益米记录
+     * @apiVersion 0.0.1
+     * @apiName user.ymRecord
+     * @apiGroup user
+     * @apiDescription 查询用户/团队益米记录
+     *
+     * @apiParam {NUMBER} type 类型：0-个人，1-团队
+     * @apiParam {NUMBER} joinId 用户id或团队id
+     * @apiParam {NUMBER} pageNum 页码
+     * @apiParam {NUMBER} pageSize 每页请求数
+     *
+     * @apiSuccess {NUMBER} type 类型：0-个人，1-团队
+     * @apiSuccess {NUMBER} joinId 用户id或团队id
+     * @apiSuccess {NUMBER} ym 益米增减数
+     * @apiSuccess {NUMBER} content 内容
+     */
+    @RequestMapping("ym/record")
+    public void ymRecord(HttpServletRequest request,
+                        HttpServletResponse response,
+                         @RequestParam(required=true) Integer type,
+                        @RequestParam(required=true) Long joinId,
+                         @RequestParam(required=true) Integer pageNum,
+                         @RequestParam(required=true) Integer pageSize) throws Exception {
+
+        Page<YmRecord> page = ymRecordService.findByJoinId(type, joinId, pageNum, pageSize);
+        WebUtil.printJson(response,new Result().success(new PageVO(page)));
+    }
+
+    /**
+     * @api {post} /api/user/exchange/record  14、查询个人/团队兑换记录
+     * @apiVersion 0.0.1
+     * @apiName user.exchangeRecord
+     * @apiGroup user
+     * @apiDescription 查询个人/团队兑换记录
+     *
+     * @apiParam {NUMBER} type 类型：0-个人，1-团队
+     * @apiParam {NUMBER} joinId 用户id或团队id
+     * @apiParam {NUMBER} pageNum 页码
+     * @apiParam {NUMBER} pageSize 每页请求数
+     *
+     * @apiSuccess {NUMBER} joinType 类型：0-个人，1-团队
+     * @apiSuccess {NUMBER} joinId 用户id或团队id
+     * @apiSuccess {String} name 手机/团体名称
+     * @apiSuccess {String} nickname 昵称
+     * @apiSuccess {String} productName 商品名称
+     * @apiSuccess {NUMBER} productType 商品类型0:实物 1:众筹 2:广告位
+     * @apiSuccess {NUMBER} ym 所需益米
+     * @apiSuccess {String} code 兑换码
+     * @apiSuccess {NUMBER} validStartDate 开始有效期 type = 0
+     * @apiSuccess {NUMBER} validEndDate 结束有效期 type = 0
+     * @apiSuccess {String} address 兑换地址 type = 0
+     * @apiSuccess {NUMBER} isExchange 是否已兑换（0-否，1-是）
+     */
+    @RequestMapping("exchange/record")
+    public void exchangeRecord(HttpServletRequest request,
+                         HttpServletResponse response,
+                         @RequestParam(required=true) Integer type,
+                         @RequestParam(required=true) Long joinId,
+                         @RequestParam(required=true) Integer pageNum,
+                         @RequestParam(required=true) Integer pageSize) throws Exception {
+
+        Page<ProductExchangeRecord> page = exchangeRecordService.findByJoinId(type, joinId, pageNum, pageSize);
+        WebUtil.printJson(response,new Result().success(new PageVO(page)));
+    }
+
+
+
 
 
     /**
@@ -394,7 +579,6 @@ public class UserInfoApi extends CommonController{
         map.put("param","致青春平台验证码,"+code+",10分钟");
         HttpUtils.sendPost(url,map);
     }
-
 
 
     /**

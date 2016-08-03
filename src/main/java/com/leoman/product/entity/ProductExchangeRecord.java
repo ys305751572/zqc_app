@@ -26,14 +26,17 @@ public class ProductExchangeRecord extends BaseEntity{
     @Column(name = "nickname")
     private String nickname;//昵称
 
+    @Column(name = "product_id")
+    private Long productId;//商品id
+
     @Column(name = "product_name")
-    private String product_name;//商品名称
+    private String productName;//商品名称
 
     @Column(name = "product_type")
-    private Integer product_type;//商品类型0:实物 1:众筹 2:广告位
+    private Integer productType;//商品类型0:实物 1:众筹 2:广告位
 
     @Column(name = "product_type_name")
-    private String product_type_name;//商品类型名称
+    private String productTypeName;//商品类型名称
 
     @Column(name = "integral")
     private Integer integral;//兑换积分
@@ -49,6 +52,18 @@ public class ProductExchangeRecord extends BaseEntity{
 
     @Column(name = "code")
     private String code;//兑换码
+
+    @Column(name = "valid_start_date")
+    private Long validStartDate;//开始有效期 type = 0
+
+    @Column(name = "valid_end_date")
+    private Long validEndDate;//结束有效期 type = 0
+
+    @Column(name = "address")
+    private String address;//兑换地址 type = 0
+
+    @Column(name = "is_exchange")
+    private Integer isExchange;//是否已兑换（0-否，1-是）
 
     public Integer getJoinType() {
         return joinType;
@@ -82,28 +97,28 @@ public class ProductExchangeRecord extends BaseEntity{
         this.nickname = nickname;
     }
 
-    public String getProduct_name() {
-        return product_name;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setProduct_name(String product_name) {
-        this.product_name = product_name;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public Integer getProduct_type() {
-        return product_type;
+    public Integer getProductType() {
+        return productType;
     }
 
-    public void setProduct_type(Integer product_type) {
-        this.product_type = product_type;
+    public void setProductType(Integer productType) {
+        this.productType = productType;
     }
 
-    public String getProduct_type_name() {
-        return product_type_name;
+    public String getProductTypeName() {
+        return productTypeName;
     }
 
-    public void setProduct_type_name(String product_type_name) {
-        this.product_type_name = product_type_name;
+    public void setProductTypeName(String productTypeName) {
+        this.productTypeName = productTypeName;
     }
 
     public Integer getIntegral() {
@@ -144,5 +159,45 @@ public class ProductExchangeRecord extends BaseEntity{
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public Long getValidStartDate() {
+        return validStartDate;
+    }
+
+    public void setValidStartDate(Long validStartDate) {
+        this.validStartDate = validStartDate;
+    }
+
+    public Long getValidEndDate() {
+        return validEndDate;
+    }
+
+    public void setValidEndDate(Long validEndDate) {
+        this.validEndDate = validEndDate;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
+    public Integer getIsExchange() {
+        return isExchange;
+    }
+
+    public void setIsExchange(Integer isExchange) {
+        this.isExchange = isExchange;
     }
 }

@@ -4,8 +4,11 @@ package com.leoman.team.dao;
 import com.leoman.common.dao.IBaseJpaRepository;
 import com.leoman.task.entity.Task;
 import com.leoman.team.entity.Team;
+import com.leoman.user.entity.UserInfo;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 /**
  * Created by Daisy on 2016/7/27.

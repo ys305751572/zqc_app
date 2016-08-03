@@ -15,4 +15,6 @@ public interface ProductService extends GenericManager<Product> {
 
     public void exchange(Integer joinType, Long productId, Long joinId, Integer days);
 
+    public Product findWishWell();
+
 }

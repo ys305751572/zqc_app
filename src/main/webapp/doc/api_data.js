@@ -678,6 +678,574 @@ define({ "api": [
   },
   {
     "type": "post",
+    "url": "/api/product/detail",
+    "title": "02、获取商品详情",
+    "version": "0.0.1",
+    "name": "product_detail",
+    "group": "product",
+    "description": "<p>获取商品详情</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "productId",
+            "description": "<p>商品id</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "id",
+            "description": "<p>商品id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "type",
+            "description": "<p>商品类型 0:实物 1:众筹 2:广告位</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>商品名称</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "coverUrl",
+            "description": "<p>封面图片</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "detailImageUrl",
+            "description": "<p>详情图片</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "shortDesc",
+            "description": "<p>简短描述</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "ym",
+            "description": "<p>所需益米（type=1时，表示单人所需益米）</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "nums",
+            "description": "<p>type = 1时所需人数</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "buyNum",
+            "description": "<p>type = 1时已经众筹人数</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "validStartDate",
+            "description": "<p>开始有效期 type = 0</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "validEndDate",
+            "description": "<p>结束有效期 type = 0</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "address",
+            "description": "<p>兑换地址 type = 0</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "object",
+            "optional": false,
+            "field": "ads",
+            "description": "<p>广告位规格</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "object",
+            "optional": false,
+            "field": "ads.days",
+            "description": "<p>周期天数</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "object",
+            "optional": false,
+            "field": "ads.ym",
+            "description": "<p>周期对应益米</p>"
+          }
+        ]
+      }
+    },
+    "filename": "src/main/java/com/leoman/product/api/ProductApi.java",
+    "groupTitle": "product",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:8081/zqc_app/api/product/detail"
+      }
+    ]
+  },
+  {
+    "type": "post",
+    "url": "/api/product/exchange",
+    "title": "03、商品兑换",
+    "version": "0.0.1",
+    "name": "product_exchange",
+    "group": "product",
+    "description": "<p>商品兑换</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "joinType",
+            "description": "<p>兑换人类型：0-个人，1-团队</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "joinId",
+            "description": "<p>用户id或团队id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "productId",
+            "description": "<p>商品id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "days",
+            "description": "<p>天数</p>"
+          }
+        ]
+      }
+    },
+    "filename": "src/main/java/com/leoman/product/api/ProductApi.java",
+    "groupTitle": "product",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:8081/zqc_app/api/product/exchange"
+      }
+    ]
+  },
+  {
+    "type": "post",
+    "url": "/api/product/list",
+    "title": "01、获取商品列表",
+    "version": "0.0.1",
+    "name": "product_list",
+    "group": "product",
+    "description": "<p>获取商品列表</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "pageNum",
+            "description": "<p>页码</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "pageSize",
+            "description": "<p>每页请求数</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "id",
+            "description": "<p>商品id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "type",
+            "description": "<p>商品类型 0:实物 1:众筹 2:广告位</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>商品名称</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "coverUrl",
+            "description": "<p>封面图片</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "shortDesc",
+            "description": "<p>简短描述</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "ym",
+            "description": "<p>所需益米（type=1时，表示单人所需益米）</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "nums",
+            "description": "<p>type = 1时所需人数</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "buyNum",
+            "description": "<p>type = 1时已经众筹人数</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "validStartDate",
+            "description": "<p>开始有效期 type = 0</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "validEndDate",
+            "description": "<p>结束有效期 type = 0</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "address",
+            "description": "<p>兑换地址 type = 0</p>"
+          }
+        ]
+      }
+    },
+    "filename": "src/main/java/com/leoman/product/api/ProductApi.java",
+    "groupTitle": "product",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:8081/zqc_app/api/product/list"
+      }
+    ]
+  },
+  {
+    "type": "post",
+    "url": "/api/product/wish",
+    "title": "04、获取许愿池详情",
+    "version": "0.0.1",
+    "name": "product_wish",
+    "group": "product",
+    "description": "<p>获取商品详情</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "productId",
+            "description": "<p>商品id</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "id",
+            "description": "<p>商品id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "type",
+            "description": "<p>商品类型 0:实物 1:众筹 2:广告位</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>商品名称</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "coverUrl",
+            "description": "<p>封面图片</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "detailImageUrl",
+            "description": "<p>详情图片</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "shortDesc",
+            "description": "<p>简短描述</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "ym",
+            "description": "<p>所需益米（type=1时，表示单人所需益米）</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "nums",
+            "description": "<p>type = 1时所需人数</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "buyNum",
+            "description": "<p>type = 1时已经众筹人数</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "validStartDate",
+            "description": "<p>开始有效期 type = 0</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "validEndDate",
+            "description": "<p>结束有效期 type = 0</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "address",
+            "description": "<p>兑换地址 type = 0</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "object",
+            "optional": false,
+            "field": "ads",
+            "description": "<p>广告位规格</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "object",
+            "optional": false,
+            "field": "ads.days",
+            "description": "<p>周期天数</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "object",
+            "optional": false,
+            "field": "ads.ym",
+            "description": "<p>周期对应益米</p>"
+          }
+        ]
+      }
+    },
+    "filename": "src/main/java/com/leoman/product/api/ProductApi.java",
+    "groupTitle": "product",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:8081/zqc_app/api/product/wish"
+      }
+    ]
+  },
+  {
+    "type": "post",
+    "url": "/api/product/wish/userList",
+    "title": "05、获取许愿池的所有众筹用户",
+    "version": "0.0.1",
+    "name": "product_wishUsers",
+    "group": "product",
+    "description": "<p>获取许愿池的所有众筹用户</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "productId",
+            "description": "<p>商品id</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "user",
+            "description": "<p>用户对象</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "user.id",
+            "description": "<p>用户id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.mobile",
+            "description": "<p>手机号</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.nickname",
+            "description": "<p>昵称</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "user.gender",
+            "description": "<p>性别 男-0，女-1</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.avater",
+            "description": "<p>头像</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.status",
+            "description": "<p>状态 0:正常 1:冻结</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.level",
+            "description": "<p>会员等级</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.integral",
+            "description": "<p>积分</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.ym",
+            "description": "<p>益米</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.IDCard",
+            "description": "<p>身份证号</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.sign",
+            "description": "<p>index0 : 今日是否签到 0:未签到 1:已签到 index1:连续签到次数 index2:总共签到次数</p>"
+          }
+        ]
+      }
+    },
+    "filename": "src/main/java/com/leoman/product/api/ProductApi.java",
+    "groupTitle": "product",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:8081/zqc_app/api/product/wish/userList"
+      }
+    ]
+  },
+  {
+    "type": "post",
     "url": "/api/task/detail",
     "title": "02、获取任务详情",
     "version": "0.0.1",
@@ -1364,6 +1932,49 @@ define({ "api": [
   },
   {
     "type": "post",
+    "url": "/api/user/task/list",
+    "title": "11、分配团队活动的益米",
+    "version": "0.0.1",
+    "name": "user_allotYm",
+    "group": "user",
+    "description": "<p>分配团队活动的益米</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>用户id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "taskJoinId",
+            "description": "<p>活动参加id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "ym",
+            "description": "<p>每人分配益米数</p>"
+          }
+        ]
+      }
+    },
+    "filename": "src/main/java/com/leoman/user/api/UserInfoApi.java",
+    "groupTitle": "user",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:8081/zqc_app/api/user/task/list"
+      }
+    ]
+  },
+  {
+    "type": "post",
     "url": "/api/user/edit",
     "title": "04、修改个人信息",
     "version": "0.0.1",
@@ -1497,6 +2108,146 @@ define({ "api": [
   },
   {
     "type": "post",
+    "url": "/api/user/exchange/record",
+    "title": "14、查询个人/团队兑换记录",
+    "version": "0.0.1",
+    "name": "user_exchangeRecord",
+    "group": "user",
+    "description": "<p>查询个人/团队兑换记录</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "type",
+            "description": "<p>类型：0-个人，1-团队</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "joinId",
+            "description": "<p>用户id或团队id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "pageNum",
+            "description": "<p>页码</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "pageSize",
+            "description": "<p>每页请求数</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "joinType",
+            "description": "<p>类型：0-个人，1-团队</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "joinId",
+            "description": "<p>用户id或团队id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>手机/团体名称</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "nickname",
+            "description": "<p>昵称</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "productName",
+            "description": "<p>商品名称</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "productType",
+            "description": "<p>商品类型0:实物 1:众筹 2:广告位</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "ym",
+            "description": "<p>所需益米</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "code",
+            "description": "<p>兑换码</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "validStartDate",
+            "description": "<p>开始有效期 type = 0</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "validEndDate",
+            "description": "<p>结束有效期 type = 0</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "address",
+            "description": "<p>兑换地址 type = 0</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "isExchange",
+            "description": "<p>是否已兑换（0-否，1-是）</p>"
+          }
+        ]
+      }
+    },
+    "filename": "src/main/java/com/leoman/user/api/UserInfoApi.java",
+    "groupTitle": "user",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:8081/zqc_app/api/user/exchange/record"
+      }
+    ]
+  },
+  {
+    "type": "post",
     "url": "/api/user/head/upload",
     "title": "05、上传用户头像",
     "version": "0.0.1",
@@ -1557,6 +2308,90 @@ define({ "api": [
     "sampleRequest": [
       {
         "url": "http://localhost:8081/zqc_app/api/user/info"
+      }
+    ]
+  },
+  {
+    "type": "post",
+    "url": "/api/user/ym/record",
+    "title": "12、查询用户/团队积分记录",
+    "version": "0.0.1",
+    "name": "user_integralRecord",
+    "group": "user",
+    "description": "<p>查询用户/团队积分记录</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "type",
+            "description": "<p>类型：0-个人，1-团队</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "joinId",
+            "description": "<p>用户id或团队id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "pageNum",
+            "description": "<p>页码</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "pageSize",
+            "description": "<p>每页请求数</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "type",
+            "description": "<p>类型：0-个人，1-团队</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "joinId",
+            "description": "<p>用户id或团队id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "ym",
+            "description": "<p>益米增减数</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "content",
+            "description": "<p>内容</p>"
+          }
+        ]
+      }
+    },
+    "filename": "src/main/java/com/leoman/user/api/UserInfoApi.java",
+    "groupTitle": "user",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:8081/zqc_app/api/user/ym/record"
       }
     ]
   },
@@ -1912,6 +2747,265 @@ define({ "api": [
     "sampleRequest": [
       {
         "url": "http://localhost:8081/zqc_app/api/user/sms/code"
+      }
+    ]
+  },
+  {
+    "type": "post",
+    "url": "/api/user/task/list",
+    "title": "10、获取活动记录",
+    "version": "0.0.1",
+    "name": "user_taskList",
+    "group": "user",
+    "description": "<p>获取活动记录</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>用户id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "status",
+            "description": "<p>状态：0-进行中，1-已完成，2-未完成：</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "pageNum",
+            "description": "<p>页码</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "pageSize",
+            "description": "<p>每页请求数</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "id",
+            "description": "<p>参加id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "joinId",
+            "description": "<p>用户id或团队id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "status",
+            "description": "<p>状态：0-进行中，1-已完成，2-未完成</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "task",
+            "description": "<p>任务对象</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "type",
+            "description": "<p>类型：1-益起来任务，2-脑洞开了没任务</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>任务名称</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "coverUrl",
+            "description": "<p>封面图片</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "joinType",
+            "description": "<p>活动类型 0:个人 1:团队</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "startDate",
+            "description": "<p>任务开始时间</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "endDate",
+            "description": "<p>任务结束时间</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "address",
+            "description": "<p>活动地点</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "organizers",
+            "description": "<p>主办方</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "nums",
+            "description": "<p>所需人数</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "joinNum",
+            "description": "<p>已参加人数</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "rewardYm",
+            "description": "<p>奖励益米</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "rewardIntegral",
+            "description": "<p>奖励积分</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "detail",
+            "description": "<p>详情</p>"
+          }
+        ]
+      }
+    },
+    "filename": "src/main/java/com/leoman/user/api/UserInfoApi.java",
+    "groupTitle": "user",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:8081/zqc_app/api/user/task/list"
+      }
+    ]
+  },
+  {
+    "type": "post",
+    "url": "/api/user/ym/record",
+    "title": "13、查询用户/团队益米记录",
+    "version": "0.0.1",
+    "name": "user_ymRecord",
+    "group": "user",
+    "description": "<p>查询用户/团队益米记录</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "type",
+            "description": "<p>类型：0-个人，1-团队</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "joinId",
+            "description": "<p>用户id或团队id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "pageNum",
+            "description": "<p>页码</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "pageSize",
+            "description": "<p>每页请求数</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "type",
+            "description": "<p>类型：0-个人，1-团队</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "joinId",
+            "description": "<p>用户id或团队id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "ym",
+            "description": "<p>益米增减数</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "content",
+            "description": "<p>内容</p>"
+          }
+        ]
+      }
+    },
+    "filename": "src/main/java/com/leoman/user/api/UserInfoApi.java",
+    "groupTitle": "user",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:8081/zqc_app/api/user/ym/record"
       }
     ]
   }

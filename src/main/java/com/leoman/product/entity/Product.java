@@ -40,7 +40,7 @@ public class Product extends BaseEntity{
     @Column(name = "address")
     private String address;//兑换地址 type = 0
 
-    @Column(name = "desc")
+    @Column(name = "detail_desc")
     private String desc;//描述
 
     @Column(name = "nums")
@@ -49,8 +49,11 @@ public class Product extends BaseEntity{
     @Column(name = "buy_num")
     private Integer buyNum;//type = 1时已经众筹人数
 
+    @Column(name = "wishing_well")
+    private Integer wishingWell;//是否为许愿池
+
     @OneToMany(fetch = FetchType.EAGER)
-    @Column(name = "product_id")
+    @JoinColumn(name = "product_id")
     private Set<ProductAds> ads;//规格
 
     public String getName() {
@@ -155,5 +158,13 @@ public class Product extends BaseEntity{
 
     public void setAds(Set<ProductAds> ads) {
         this.ads = ads;
+    }
+
+    public Integer getWishingWell() {
+        return wishingWell;
+    }
+
+    public void setWishingWell(Integer wishingWell) {
+        this.wishingWell = wishingWell;
     }
 }

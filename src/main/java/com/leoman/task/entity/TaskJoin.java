@@ -23,7 +23,10 @@ public class TaskJoin extends BaseEntity{
     @Column(name = "status")
     private Integer status;//0-进行中，1-已完成，2-未完成
 
-    @OneToMany
+    @Column(name = "is_allot")
+    private Integer isAllot;//是否分配（1-已分配, 0-未分配）
+
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "task_join_id")
     private Set<TaskJoinImage> images;
 
@@ -57,5 +60,13 @@ public class TaskJoin extends BaseEntity{
 
     public void setImages(Set<TaskJoinImage> images) {
         this.images = images;
+    }
+
+    public Integer getIsAllot() {
+        return isAllot;
+    }
+
+    public void setIsAllot(Integer isAllot) {
+        this.isAllot = isAllot;
     }
 }

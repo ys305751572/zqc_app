@@ -47,6 +47,7 @@ public class ProductServiceImpl extends GenericManagerImpl<Product,ProductDao> i
     }
 
     @Override
+    @Transactional
     public void exchange(Integer joinType, Long productId, Long joinId, Integer days){
         Product product = productDao.findOne(productId);
         if(product == null){
@@ -56,9 +57,15 @@ public class ProductServiceImpl extends GenericManagerImpl<Product,ProductDao> i
         //初始化商品兑换记录值
         ProductExchangeRecord per = new ProductExchangeRecord();
         per.setJoinId(joinId);
-        per.setProduct_name(product.getName());
-        per.setProduct_type(product.getType());
+        per.setJoinType(joinType);
+        per.setProductId(productId);
+        per.setProductName(product.getName());
+        per.setProductType(product.getType());
         per.setYm(product.getYm());
+        per.setDays(days==null?0:days);
+        per.setValidStartDate(product.getValidStartDate());
+        per.setValidEndDate(product.getValidEndDate());
+        per.setAddress(product.getAddress());
 
         //如果是个人
         if(joinType.equals(0)){
@@ -92,30 +99,38 @@ public class ProductServiceImpl extends GenericManagerImpl<Product,ProductDao> i
                 per.setNickname(team.getName());
             }
 
-            per.setJoinType(joinType);
-            per.setProduct_type_name("实物");
+            per.setProductTypeName("实物");
             per.setStatus(1);//成功
             per.setIntegral(0);
-            per.setCode(SeqNoUtils.getCouponCode(0,16));//兑换码
+            per.setCode(SeqNoUtils.getCouponCode(0,10));//兑换码
         }
         //众筹
         else if(productType.equals(1)){
             if(product.getBuyNum() >= product.getNums()){
                 GeneralExceptionHandler.handle("众筹人数已达到，无需兑换");
             }
-            per.setJoinType(0);
+
+            //修改已众筹人数
+            product.setBuyNum(product.getBuyNum()+1);
+            productDao.save(product);
+
             per.setStatus(1);
             per.setIntegral(0);
-            per.setProduct_type_name("众筹");
+            per.setProductTypeName("众筹");
         }
         //banner广告位
         else if(productType.equals(2)){
-            per.setDays(days);
+            per.setProductTypeName("banner广告位");
             per.setStatus(0);//未处理
         }
 
         //新增兑换记录
         exchangeRecordService.create(per);
+    }
+
+    @Override
+    public Product findWishWell() {
+        return productDao.findWishWell();
     }
 
 }

@@ -18,4 +18,8 @@ public interface TaskJoinService extends GenericManager<TaskJoin> {
 
     public void createTaskJoinImage(Long taskId, Long joinId, MultipartFile[] images);
 
+    public Page<TaskJoin> findByUserId(Long userId, Integer status, Integer currentPage, Integer pageSize);
+
+    public void allotYm(Long userId, Long taskJoinId, Integer ym);
+
 }

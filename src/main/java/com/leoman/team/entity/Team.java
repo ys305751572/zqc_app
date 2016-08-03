@@ -16,8 +16,8 @@ import java.util.Set;
 @Table(name = "t_team")
 public class Team extends BaseEntity{
 
-    /*@ManyToOne
-    @JoinColumn(name = "user_id")*/
+//    @ManyToOne
+//    @JoinColumn(name = "user_id")
     @Column(name = "user_id")
     private Long userId;
 
