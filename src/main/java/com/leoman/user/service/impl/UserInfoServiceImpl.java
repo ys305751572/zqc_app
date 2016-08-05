@@ -1,5 +1,6 @@
 package com.leoman.user.service.impl;
 
+import com.leoman.common.exception.GeneralExceptionHandler;
 import com.leoman.common.service.impl.GenericManagerImpl;
 import com.leoman.user.dao.UserInfoDao;
 import com.leoman.user.dao.UserLoginDao;
@@ -31,13 +32,18 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by Daisy on 2016/7/14.
  */
 @Service
+@Transactional(readOnly = true)
 public class UserInfoServiceImpl extends GenericManagerImpl<UserInfo,UserInfoDao> implements UserInfoService {
 
     @Autowired
@@ -59,11 +65,17 @@ public class UserInfoServiceImpl extends GenericManagerImpl<UserInfo,UserInfoDao
     }
 
     @Override
-    public Page<UserInfo> findAll(UserInfo userInfo, Integer currentPage, Integer pageSize) throws Exception {
-        Specification<UserInfo> spec = buildSpecification(userInfo);
-        return infoDao.findAll(spec, new PageRequest(currentPage-1, pageSize, Sort.Direction.DESC, "id"));
+    public Page<UserInfo> findAll(Integer currentPage, Integer pageSize) throws Exception {
+        return infoDao.findAll(new PageRequest(currentPage-1, pageSize, Sort.Direction.DESC, "integral"));
     }
 
+    /**
+     * 注册
+     * @param userInfo
+     * @param password
+     * @param ipAddress
+     * @return
+     */
     @Override
     @Transactional
     public UserInfo create(UserInfo userInfo, String password, String ipAddress) {
@@ -72,8 +84,6 @@ public class UserInfoServiceImpl extends GenericManagerImpl<UserInfo,UserInfoDao
         userLogin.setUsername(userInfo.getMobile());
         userLogin.setPassword(password);
         userLogin.setIp_address(ipAddress);
-        userLogin.setCreateDate(System.currentTimeMillis());
-        userLogin.setUpdateDate(System.currentTimeMillis());
         UserLogin ul = loginDao.save(userLogin);
 
         //新增用户
@@ -82,11 +92,39 @@ public class UserInfoServiceImpl extends GenericManagerImpl<UserInfo,UserInfoDao
         userInfo.setIntegral(0);
         userInfo.setYm(0);
         userInfo.setLevel(1);
-        userInfo.setSign("0|0|0");
-        userInfo.setCreateDate(System.currentTimeMillis());
-        userInfo.setUpdateDate(System.currentTimeMillis());
+        userInfo.setSign("0|0");
         UserInfo u = infoDao.save(userInfo);
         return u;
+    }
+
+    @Override
+    @Transactional
+    public void sign(Long userId) throws Exception{
+        UserInfo user = infoDao.findOne(userId);
+        if(user == null){
+            GeneralExceptionHandler.handle("用户不存在");
+        }
+        Date lsd = user.getLastSignDate();
+
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Date now = df.parse(df.format(new Date()));
+
+        String [] signArr = user.getSign().split("\\|");
+        Long continueCount = Long.valueOf(signArr[0]);//连续签到次数
+        Long totalCount = Long.valueOf(signArr[1]);//总共签到次数
+
+        if(lsd != null){
+            Long day = (now.getTime() - lsd.getTime())/(1000*3600*24);
+            if(day < 1){
+                GeneralExceptionHandler.handle("今天已经签到过了");
+            }
+            if(day > 1){
+                continueCount = 0l;
+            }
+        }
+        user.setLastSignDate(new Date());
+        user.setSign( (continueCount+1) + "|" + (totalCount+1) );
+        infoDao.save(user);
     }
 
     public Specification<UserInfo> buildSpecification(final UserInfo userInfo) {

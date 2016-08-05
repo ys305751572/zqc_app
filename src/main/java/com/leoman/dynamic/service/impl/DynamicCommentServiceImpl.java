@@ -2,12 +2,9 @@ package com.leoman.dynamic.service.impl;
 
 import com.leoman.common.service.impl.GenericManagerImpl;
 import com.leoman.dynamic.dao.DynamicCommentDao;
-import com.leoman.dynamic.entity.Dynamic;
 import com.leoman.dynamic.entity.DynamicComment;
 import com.leoman.dynamic.service.DynamicCommentService;
-import com.leoman.user.entity.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

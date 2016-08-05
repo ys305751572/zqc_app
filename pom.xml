@@ -392,7 +392,7 @@
 		<profile>
 			<id>deploy-formal</id>
 			<properties>
-				<pro.jdbc.url>jdbc:mysql://112.74.197.62:3306/zqc_app?characterEncoding=UTF-8</pro.jdbc.url>
+				<pro.jdbc.url>jdbc:mysql://112.74.197.62:3306/leoman_zqc?characterEncoding=UTF-8</pro.jdbc.url>
 				<pro.jdbc.username>root</pro.jdbc.username>
 				<pro.jdbc.password>root</pro.jdbc.password>
 				<pro.upload.url>http://112.74.197.62/files/upload/</pro.upload.url>

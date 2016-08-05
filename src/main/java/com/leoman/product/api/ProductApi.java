@@ -5,6 +5,7 @@ import com.leoman.common.core.Configue;
 import com.leoman.common.entity.PageVO;
 import com.leoman.enums.ErrorType;
 import com.leoman.product.entity.Product;
+import com.leoman.product.entity.ProductExchangeRecord;
 import com.leoman.product.service.ProductExchangeRecordService;
 import com.leoman.product.service.ProductService;
 import com.leoman.user.entity.UserInfo;
@@ -208,6 +209,42 @@ public class ProductApi extends CommonController{
                           @RequestParam(required=true) Integer pageSize) throws Exception {
 
         Page<UserInfo> page = exchangeRecordService.findByProductId(productId,pageNum,pageSize);
+        WebUtil.printJson(response,new Result().success(new PageVO(page)));
+    }
+
+    /**
+     * @api {post} /api/product/exchange/codeList  14、查询个人/团队兑换记录
+     * @apiVersion 0.0.1
+     * @apiName product.codeList
+     * @apiGroup product
+     * @apiDescription 查询个人/团队兑换记录
+     *
+     * @apiParam {NUMBER} type 类型：0-个人，1-团队
+     * @apiParam {NUMBER} joinId 用户id或团队id
+     * @apiParam {NUMBER} pageNum 页码
+     * @apiParam {NUMBER} pageSize 每页请求数
+     *
+     * @apiSuccess {NUMBER} joinType 类型：0-个人，1-团队
+     * @apiSuccess {NUMBER} joinId 用户id或团队id
+     * @apiSuccess {String} name 手机/团体名称
+     * @apiSuccess {String} nickname 昵称
+     * @apiSuccess {String} productName 商品名称
+     * @apiSuccess {NUMBER} productType 商品类型0:实物 1:众筹 2:广告位
+     * @apiSuccess {NUMBER} ym 所需益米
+     * @apiSuccess {String} code 兑换码
+     * @apiSuccess {NUMBER} validStartDate 开始有效期 type = 0
+     * @apiSuccess {NUMBER} validEndDate 结束有效期 type = 0
+     * @apiSuccess {String} address 兑换地址 type = 0
+     * @apiSuccess {NUMBER} isExchange 是否已兑换（0-否，1-是）
+     */
+    @RequestMapping("exchange/codeList")
+    public void codeList(HttpServletRequest request,
+                          HttpServletResponse response,
+                          @RequestParam(required=true) Long userId,
+                          @RequestParam(required=true) Integer pageNum,
+                          @RequestParam(required=true) Integer pageSize) throws Exception {
+
+        Page<ProductExchangeRecord> page = exchangeRecordService.findCodes(userId,pageNum,pageSize);
         WebUtil.printJson(response,new Result().success(new PageVO(page)));
     }
 

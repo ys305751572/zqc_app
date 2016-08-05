@@ -20,4 +20,7 @@ public interface ProductExchangeRecordDao extends IBaseJpaRepository<ProductExch
     @Query("select a from ProductExchangeRecord a where a.joinType = ?1 and a.joinId = ?2 ")
     public Page<ProductExchangeRecord> findByJoinId(Integer joinType, Long joinId, Pageable pageable);
 
+    @Query("select a from ProductExchangeRecord a where a.productType = 0 and ( (a.joinType = 0 and a.joinId = ?1) or (a.joinType = 1 and a.joinId = ?2) )")
+    public Page<ProductExchangeRecord> findCodes(Long userId, Long teamId, Pageable pageable);
+
 }

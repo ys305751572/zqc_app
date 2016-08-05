@@ -18,4 +18,6 @@ public interface TeamService extends GenericManager<Team> {
 
     public void quit(Long teamId, Long userId);
 
+    public Page<Team> findAll(Integer currentPage, Integer pageSize);
+
 }

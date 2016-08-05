@@ -40,7 +40,6 @@ public class DynamicCollectionServiceImpl extends GenericManagerImpl<DynamicColl
             DynamicCollection dp = new DynamicCollection();
             dp.setDynamic(new Dynamic(dynamicId));
             dp.setUser(new UserInfo(userId));
-            dp.setCreateDate(System.currentTimeMillis());
             dynamicCollectionDao.save(dp);
         }else if("cancel".equals(oper)){
             DynamicCollection dynamicCollection = dynamicCollectionDao.findByDynamicIdAndUserId(dynamicId, userId);

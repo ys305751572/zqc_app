@@ -17,4 +17,6 @@ public interface ProductExchangeRecordService extends GenericManager<ProductExch
     public Page<UserInfo> findByProductId(Long productId, Integer currentPage, Integer pageSize);
 
     public Page<ProductExchangeRecord> findByJoinId(Integer joinType, Long joinId, Integer currentPage, Integer pageSize);
+
+    public Page<ProductExchangeRecord> findCodes(Long userId, Integer currentPage, Integer pageSize);
 }

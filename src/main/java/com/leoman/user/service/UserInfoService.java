@@ -17,8 +17,10 @@ public interface UserInfoService extends GenericManager<UserInfo> {
 
     public UserInfo findOne(UserInfo userInfo) throws Exception;
 
-    public Page<UserInfo> findAll(UserInfo userInfo, Integer currentPage, Integer pageSize) throws Exception;
+    public Page<UserInfo> findAll(Integer currentPage, Integer pageSize) throws Exception;
 
     public UserInfo create(UserInfo userInfo, String password, String ipAddress);
+
+    public void sign(Long userId) throws Exception;
 
 }

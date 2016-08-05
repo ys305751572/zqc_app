@@ -111,8 +111,6 @@ public class TaskJoinServiceImpl extends GenericManagerImpl<TaskJoin,TaskJoinDao
             TaskJoin taskJoin = new TaskJoin();
             taskJoin.setJoinId(joinId);
             taskJoin.setTask(new Task(taskId));
-            taskJoin.setCreateDate(System.currentTimeMillis());
-            taskJoin.setUpdateDate(System.currentTimeMillis());
             taskJoin.setStatus(0);//报名即0-进行中
             taskJoinDao.save(taskJoin);
 
@@ -137,8 +135,6 @@ public class TaskJoinServiceImpl extends GenericManagerImpl<TaskJoin,TaskJoinDao
             String imageUrl = uploadImageService.uploadFile(file);
             tji.setTaskJoinId(tj.getId());
             tji.setImageUrl(imageUrl);
-            tji.setCreateDate(System.currentTimeMillis());
-            tji.setUpdateDate(System.currentTimeMillis());
             taskJoinImageDao.save(tji);
             set.add(tji);
         }

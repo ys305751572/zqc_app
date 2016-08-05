@@ -42,7 +42,6 @@ public class DynamicPraiseServiceImpl extends GenericManagerImpl<DynamicPraise,D
             DynamicPraise dp = new DynamicPraise();
             dp.setDynamic(new Dynamic(dynamicId));
             dp.setUser(new UserInfo(userId));
-            dp.setCreateDate(System.currentTimeMillis());
             dynamicPraiseDao.save(dp);
         }else if("cancel".equals(oper)){
             DynamicPraise dynamicPraise = dynamicPraiseDao.findByDynamicIdAndUserId(dynamicId, userId);

@@ -45,6 +45,9 @@ public class DynamicApi extends CommonController{
     @Autowired
     private DynamicCommentService dynamicCommentService;//评论
 
+    @Autowired
+    private DynamicGiveService dynamicGiveService;//打赏
+
     /**
      * @api {post} /api/dynamic/add  01、发表朋友圈
      * @apiVersion 0.0.1
@@ -281,9 +284,8 @@ public class DynamicApi extends CommonController{
     @RequestMapping("comment/add")
     public void commentAdd(HttpServletRequest request,
                     HttpServletResponse response,
-                    DynamicComment dynamicComment
+                    DynamicComment dynamicComment) throws Exception {
 
-    ) throws Exception {
         dynamicCommentService.create(dynamicComment);
         WebUtil.printJson(response,new Result().success());
     }
@@ -352,6 +354,24 @@ public class DynamicApi extends CommonController{
         WebUtil.printJson(response,new Result().success());
     }
 
+    /**
+     * @api {post} /api/dynamic/give  10、打赏朋友圈
+     * @apiVersion 0.0.1
+     * @apiName dynamic.give
+     * @apiGroup dynamic
+     * @apiDescription 打赏朋友圈
+     *
+     * @apiParam {NUMBER} dynamic.id 动态id
+     * @apiParam {NUMBER} user.id 用户id
+     * @apiParam {NUMBER} ym 打赏益米数
+     */
+    @RequestMapping("give")
+    public void give(HttpServletRequest request,
+                              HttpServletResponse response,
+                              DynamicGive dynamicGive) throws Exception {
 
+        dynamicGiveService.create(dynamicGive);
+        WebUtil.printJson(response,new Result().success());
+    }
 
 }

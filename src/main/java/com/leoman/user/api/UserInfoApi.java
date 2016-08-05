@@ -94,11 +94,22 @@ public class UserInfoApi extends CommonController{
      * @apiSuccess {String}   user.integral 积分
      * @apiSuccess {String}   user.ym 益米
      * @apiSuccess {String}   user.IDCard 身份证号
-     * @apiSuccess {String}   user.sign index0 : 今日是否签到 0:未签到 1:已签到 index1:连续签到次数 index2:总共签到次数
+     * @apiSuccess {String}   user.sign index0:连续签到次数 index1:总共签到次数
+     *
+     * @apiSuccess {Object}   teams  该用户创建的团队信息
+     * @apiSuccess {NUMBER}   teams.id 团队id
+     * @apiSuccess {NUMBER}   teams.name 团队名称
+     * @apiSuccess {NUMBER}   teams.slogan 团队口号
+     * @apiSuccess {NUMBER}   teams.coverUrl 团队口号
+     * @apiSuccess {NUMBER}   teams.integral 积分
+     * @apiSuccess {NUMBER}   teams.ym 益米
      *
      * @apiSuccess {Object}   teamUsers  用户团队信息
      * @apiSuccess {NUMBER}   teamUsers.teamId 团队id
      * @apiSuccess {NUMBER}   teamUsers.isHeader 是否为群主（1-是，0-否）
+     *
+     * @apiSuccess {Object}   userCas  用户证书
+     * @apiSuccess {NUMBER}   userCas.caUrl 证书路径
      */
     @RequestMapping("login")
     public void login(HttpServletRequest request,
@@ -170,6 +181,33 @@ public class UserInfoApi extends CommonController{
      * @apiDescription 获取用户信息
      * @apiParam {STRING} userId 用户ID
      *
+     * @apiSuccess {Object}   user  用户对象
+     * @apiSuccess {NUMBER}   user.id 用户id
+     * @apiSuccess {String}   user.mobile 手机号
+     * @apiSuccess {String}   user.nickname 昵称
+     * @apiSuccess {NUMBER}   user.gender 性别 男-0，女-1
+     * @apiSuccess {String}   user.avater 头像
+     * @apiSuccess {String}   user.status 状态 0:正常 1:冻结
+     * @apiSuccess {String}   user.level 会员等级
+     * @apiSuccess {String}   user.integral 积分
+     * @apiSuccess {String}   user.ym 益米
+     * @apiSuccess {String}   user.IDCard 身份证号
+     * @apiSuccess {String}   user.sign index0:连续签到次数 index1:总共签到次数
+     *
+     * @apiSuccess {Object}   teams  该用户创建的团队信息
+     * @apiSuccess {NUMBER}   teams.id 团队id
+     * @apiSuccess {NUMBER}   teams.name 团队名称
+     * @apiSuccess {NUMBER}   teams.slogan 团队口号
+     * @apiSuccess {NUMBER}   teams.coverUrl 团队口号
+     * @apiSuccess {NUMBER}   teams.integral 积分
+     * @apiSuccess {NUMBER}   teams.ym 益米
+     *
+     * @apiSuccess {Object}   teamUsers  用户团队信息
+     * @apiSuccess {NUMBER}   teamUsers.teamId 团队id
+     * @apiSuccess {NUMBER}   teamUsers.isHeader 是否为群主（1-是，0-否）
+     *
+     * @apiSuccess {Object}   userCas  用户证书
+     * @apiSuccess {NUMBER}   userCas.caUrl 证书路径
      */
     @RequestMapping("info")
     public void info(HttpServletRequest request,
@@ -198,14 +236,29 @@ public class UserInfoApi extends CommonController{
      * @apiSuccess {NUMBER}   user.id 用户id
      * @apiSuccess {String}   user.mobile 手机号
      * @apiSuccess {String}   user.nickname 昵称
-     * @apiSuccess {String}   user.gender 性别
+     * @apiSuccess {NUMBER}   user.gender 性别 男-0，女-1
      * @apiSuccess {String}   user.avater 头像
      * @apiSuccess {String}   user.status 状态 0:正常 1:冻结
      * @apiSuccess {String}   user.level 会员等级
      * @apiSuccess {String}   user.integral 积分
      * @apiSuccess {String}   user.ym 益米
      * @apiSuccess {String}   user.IDCard 身份证号
-     * @apiSuccess {String}   user.sign index0 : 今日是否签到 0:未签到 1:已签到 index1:连续签到次数 index2:总共签到次数
+     * @apiSuccess {String}   user.sign index0:连续签到次数 index1:总共签到次数
+     *
+     * @apiSuccess {Object}   teams  该用户创建的团队信息
+     * @apiSuccess {NUMBER}   teams.id 团队id
+     * @apiSuccess {NUMBER}   teams.name 团队名称
+     * @apiSuccess {NUMBER}   teams.slogan 团队口号
+     * @apiSuccess {NUMBER}   teams.coverUrl 团队口号
+     * @apiSuccess {NUMBER}   teams.integral 积分
+     * @apiSuccess {NUMBER}   teams.ym 益米
+     *
+     * @apiSuccess {Object}   teamUsers  用户团队信息
+     * @apiSuccess {NUMBER}   teamUsers.teamId 团队id
+     * @apiSuccess {NUMBER}   teamUsers.isHeader 是否为群主（1-是，0-否）
+     *
+     * @apiSuccess {Object}   userCas  用户证书
+     * @apiSuccess {NUMBER}   userCas.caUrl 证书路径
      */
     @RequestMapping("edit")
     public void edit(HttpServletRequest request,
@@ -267,8 +320,6 @@ public class UserInfoApi extends CommonController{
      * @apiParam {NUMBER} userId 用户ID
      * @apiParam {String} oldPassword 旧密码(MD5)
      * @apiParam {String} newPassword 新密码(MD5)
-     *
-     *
      */
     @RequestMapping(value = "/password/edit")
     public void editPassword(HttpServletRequest request,
@@ -559,8 +610,71 @@ public class UserInfoApi extends CommonController{
         WebUtil.printJson(response,new Result().success(new PageVO(page)));
     }
 
+    /**
+     * @api {post} /api/user/sign  15、签到
+     * @apiVersion 0.0.1
+     * @apiName user.sign
+     * @apiGroup user
+     * @apiDescription 签到
+     *
+     * @apiParam {NUMBER} userId 用户id
+     */
+    @RequestMapping("sign")
+    public void sign(HttpServletRequest request,
+                               HttpServletResponse response,
+                               @RequestParam(required=true) Long userId) throws Exception {
 
+        userInfoService.sign(userId);
+        WebUtil.printJson(response,new Result().success());
+    }
 
+    /**
+     * @api {post} /api/user/list  16、排行榜-个人列表
+     * @apiVersion 0.0.1
+     * @apiName user.list
+     * @apiGroup user
+     * @apiDescription 排行榜-个人列表
+     *
+     * @apiParam {NUMBER} pageNum 页码
+     * @apiParam {NUMBER} pageSize 每页请求数
+     *
+     * @apiSuccess {Object}   user  用户对象
+     * @apiSuccess {NUMBER}   user.id 用户id
+     * @apiSuccess {String}   user.mobile 手机号
+     * @apiSuccess {String}   user.nickname 昵称
+     * @apiSuccess {NUMBER}   user.gender 性别 男-0，女-1
+     * @apiSuccess {String}   user.avater 头像
+     * @apiSuccess {String}   user.status 状态 0:正常 1:冻结
+     * @apiSuccess {String}   user.level 会员等级
+     * @apiSuccess {String}   user.integral 积分
+     * @apiSuccess {String}   user.ym 益米
+     * @apiSuccess {String}   user.IDCard 身份证号
+     * @apiSuccess {String}   user.sign index0:连续签到次数 index1:总共签到次数
+     *
+     * @apiSuccess {Object}   teams  该用户创建的团队信息
+     * @apiSuccess {NUMBER}   teams.id 团队id
+     * @apiSuccess {NUMBER}   teams.name 团队名称
+     * @apiSuccess {NUMBER}   teams.slogan 团队口号
+     * @apiSuccess {NUMBER}   teams.coverUrl 团队口号
+     * @apiSuccess {NUMBER}   teams.integral 积分
+     * @apiSuccess {NUMBER}   teams.ym 益米
+     *
+     * @apiSuccess {Object}   teamUsers  用户团队信息
+     * @apiSuccess {NUMBER}   teamUsers.teamId 团队id
+     * @apiSuccess {NUMBER}   teamUsers.isHeader 是否为群主（1-是，0-否）
+     *
+     * @apiSuccess {Object}   userCas  用户证书
+     * @apiSuccess {NUMBER}   userCas.caUrl 证书路径
+     */
+    @RequestMapping("list")
+    public void list(HttpServletRequest request,
+                     HttpServletResponse response,
+                     @RequestParam(required=true) Integer pageNum,
+                     @RequestParam(required=true) Integer pageSize) throws Exception {
+
+        Page<UserInfo> page = userInfoService.findAll(pageNum,pageSize);
+        WebUtil.printJson(response,new Result().success(new PageVO(page)));
+    }
 
 
     /**

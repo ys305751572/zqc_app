@@ -93,7 +93,7 @@ public class TeamApi extends CommonController{
     /**
      * @api {post} /api/team/info  03、获取一个团队的信息
      * @apiVersion 0.0.1
-     * @apiName team.join
+     * @apiName team.info
      * @apiGroup team
      * @apiDescription 加入一个团队
      *
@@ -189,6 +189,38 @@ public class TeamApi extends CommonController{
 
         teamService.quit(teamId, userId);
         WebUtil.printJson(response,new Result().success());
+    }
+
+    /**
+     * @api {post} /api/team/list  07、排行榜-获取团队列表
+     * @apiVersion 0.0.1
+     * @apiName team.list
+     * @apiGroup team
+     * @apiDescription 排行榜-获取团队列表
+     *
+     * @apiParam {NUMBER} pageNum 页码
+     * @apiParam {NUMBER} pageSize 每页请求数
+     *
+     * @apiSuccess {NUMBER} id 团队id
+     * @apiSuccess {String} name 团队名称
+     * @apiSuccess {String} slogan 团队口号
+     * @apiSuccess {NUMBER} integral 积分
+     * @apiSuccess {NUMBER} ym 益米
+     * @apiSuccess {NUMBER} coverUrl 封面图片
+     *
+     * @apiSuccess {Object}   user 用户对象
+     * @apiSuccess {NUMBER}   user.id 用户id
+     * @apiSuccess {NUMBER}   user.nickname 用户昵称
+     * @apiSuccess {String}   user.avater 用户头像
+     */
+    @RequestMapping("list")
+    public void list(HttpServletRequest request,
+                     HttpServletResponse response,
+                     @RequestParam(required=true) Integer pageNum,
+                     @RequestParam(required=true) Integer pageSize) throws Exception {
+
+        Page<Team> page = teamService.findAll(pageNum,pageSize);
+        WebUtil.printJson(response,new Result().success(new PageVO(page)));
     }
 
 

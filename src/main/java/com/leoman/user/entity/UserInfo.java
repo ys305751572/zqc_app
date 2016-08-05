@@ -6,6 +6,7 @@ import com.leoman.team.entity.Team;
 import com.leoman.team.entity.TeamUser;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -45,6 +46,9 @@ public class UserInfo extends BaseEntity{
 
     @Column(name = "id_card")
     private String IDCard;//身份证号
+
+    @Column(name = "last_sign_date")
+    private Date lastSignDate;//身份证号
 
     @Exclude
     @ManyToOne
@@ -183,5 +187,13 @@ public class UserInfo extends BaseEntity{
 
     public void setUserCas(Set<UserInfoCa> userCas) {
         this.userCas = userCas;
+    }
+
+    public Date getLastSignDate() {
+        return lastSignDate;
+    }
+
+    public void setLastSignDate(Date lastSignDate) {
+        this.lastSignDate = lastSignDate;
     }
 }

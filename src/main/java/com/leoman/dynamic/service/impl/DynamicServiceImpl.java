@@ -76,8 +76,6 @@ public class DynamicServiceImpl extends GenericManagerImpl<Dynamic,DynamicDao> i
             String imageUrl = uploadImageService.uploadFile(file);
             di.setDynamicId(dynamic.getId());
             di.setImageUrl(imageUrl);
-            di.setCreateDate(System.currentTimeMillis());
-            di.setUpdateDate(System.currentTimeMillis());
             dynamicImageService.save(di);
             set.add(di);
         }

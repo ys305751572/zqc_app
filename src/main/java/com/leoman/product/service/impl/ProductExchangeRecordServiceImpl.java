@@ -31,6 +31,9 @@ public class ProductExchangeRecordServiceImpl extends GenericManagerImpl<Product
     @Autowired
     private YmRecordService ymRecordService;
 
+    @Autowired
+    private TeamDao teamDao;
+
     @Override
     @Transactional
     public void create(ProductExchangeRecord per){
@@ -54,6 +57,13 @@ public class ProductExchangeRecordServiceImpl extends GenericManagerImpl<Product
     @Override
     public Page<ProductExchangeRecord> findByJoinId(Integer joinType, Long joinId, Integer currentPage, Integer pageSize){
         return exchangeRecordDao.findByJoinId(joinType, joinId, new PageRequest(currentPage-1, pageSize, Sort.Direction.DESC, "id"));
+    }
+
+    @Override
+    public Page<ProductExchangeRecord> findCodes(Long userId, Integer currentPage, Integer pageSize){
+        Team team = teamDao.findByUserId(userId);
+        Long teamId = team==null?0:team.getId();
+        return exchangeRecordDao.findCodes(userId,teamId, new PageRequest(currentPage-1, pageSize, Sort.Direction.DESC, "id"));
     }
 
 }

@@ -10,6 +10,9 @@ import com.leoman.team.entity.TeamUser;
 import com.leoman.team.service.TeamService;
 import com.leoman.user.entity.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,6 +30,11 @@ public class TeamServiceImpl extends GenericManagerImpl<Team,TeamDao> implements
 
     @Autowired
     private UploadImageService uploadImageService;
+
+    @Override
+    public Page<Team> findAll(Integer currentPage, Integer pageSize){
+        return teamDao.findAll(new PageRequest(currentPage-1, pageSize, Sort.Direction.DESC, "integral"));
+    }
 
 
     /**
@@ -54,7 +62,6 @@ public class TeamServiceImpl extends GenericManagerImpl<Team,TeamDao> implements
         //新增一个团队
         Team team = new Team();
         team.setName(name);
-//        team.setUser(new UserInfo(userId));
         team.setUserId(userId);
         team.setSlogan(slogan);
         team.setCoverUrl(coverUrl);
@@ -63,8 +70,6 @@ public class TeamServiceImpl extends GenericManagerImpl<Team,TeamDao> implements
         team.setYm(0);
         team.setNums(1);
         team.setLevel(1);
-        team.setCreateDate(System.currentTimeMillis());
-        team.setUpdateDate(System.currentTimeMillis());
         teamDao.save(team);
 
         //新增团队成员
@@ -72,8 +77,6 @@ public class TeamServiceImpl extends GenericManagerImpl<Team,TeamDao> implements
         teamUser.setTeamId(team.getId());
         teamUser.setUserId(userId);
         teamUser.setIsHeader(1);
-        teamUser.setCreateDate(System.currentTimeMillis());
-        teamUser.setUpdateDate(System.currentTimeMillis());
         teamUserDao.save(teamUser);
 
         return team;
@@ -96,8 +99,6 @@ public class TeamServiceImpl extends GenericManagerImpl<Team,TeamDao> implements
         teamUser.setTeamId(teamId);
         teamUser.setUserId(userId);
         teamUser.setIsHeader(0);
-        teamUser.setCreateDate(System.currentTimeMillis());
-        teamUser.setUpdateDate(System.currentTimeMillis());
         teamUserDao.save(teamUser);
 
         //修改团队人数
