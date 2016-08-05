@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": "",
   "title": "Custom apiDoc browser title",
-  "url": "http://localhost:8081/zqc_app",
-  "sampleUrl": "http://localhost:8081/zqc_app",
+  "url": "http://112.74.197.62:8080/zqc_app",
+  "sampleUrl": "http://112.74.197.62:8080/zqc_app",
   "header": {
     "title": "start",
     "filename": "header.md"

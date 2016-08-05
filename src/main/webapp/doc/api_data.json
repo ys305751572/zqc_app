@@ -1,6 +1,139 @@
 [
   {
     "type": "post",
+    "url": "/api/banner/list",
+    "title": "01、获取banner列表",
+    "version": "0.0.1",
+    "name": "banner_list",
+    "group": "banner",
+    "description": "<p>获取banner列表</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "position",
+            "description": "<p>位置 0:首页 1:商城</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "id",
+            "description": "<p>任务id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "type",
+            "description": "<p>类型：1-益起来任务，2-脑洞开了没任务</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>任务名称</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "coverUrl",
+            "description": "<p>封面图片</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "joinType",
+            "description": "<p>活动类型 0:个人 1:团队</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "startDate",
+            "description": "<p>任务开始时间</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "endDate",
+            "description": "<p>任务结束时间</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "address",
+            "description": "<p>活动地点</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "organizers",
+            "description": "<p>主办方</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "nums",
+            "description": "<p>所需人数</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "joinNum",
+            "description": "<p>已参加人数</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "rewardYm",
+            "description": "<p>奖励益米</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "rewardIntegral",
+            "description": "<p>奖励积分</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "detail",
+            "description": "<p>详情</p>"
+          }
+        ]
+      }
+    },
+    "filename": "src/main/java/com/leoman/banner/api/BannerApi.java",
+    "groupTitle": "banner",
+    "sampleRequest": [
+      {
+        "url": "http://112.74.197.62:8080/zqc_app/api/banner/list"
+      }
+    ]
+  },
+  {
+    "type": "post",
     "url": "/api/dynamic/add",
     "title": "01、发表朋友圈",
     "version": "0.0.1",
@@ -45,7 +178,7 @@
     "groupTitle": "dynamic",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/dynamic/add"
+        "url": "http://112.74.197.62:8080/zqc_app/api/dynamic/add"
       }
     ]
   },
@@ -95,7 +228,7 @@
     "groupTitle": "dynamic",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/dynamic/comment/add"
+        "url": "http://112.74.197.62:8080/zqc_app/api/dynamic/comment/add"
       }
     ]
   },
@@ -131,7 +264,7 @@
     "groupTitle": "dynamic",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/dynamic/comment/delete"
+        "url": "http://112.74.197.62:8080/zqc_app/api/dynamic/comment/delete"
       }
     ]
   },
@@ -243,7 +376,7 @@
     "groupTitle": "dynamic",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/dynamic/commentList"
+        "url": "http://112.74.197.62:8080/zqc_app/api/dynamic/commentList"
       }
     ]
   },
@@ -279,7 +412,50 @@
     "groupTitle": "dynamic",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/dynamic/delete"
+        "url": "http://112.74.197.62:8080/zqc_app/api/dynamic/delete"
+      }
+    ]
+  },
+  {
+    "type": "post",
+    "url": "/api/dynamic/give",
+    "title": "10、打赏朋友圈",
+    "version": "0.0.1",
+    "name": "dynamic_give",
+    "group": "dynamic",
+    "description": "<p>打赏朋友圈</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "dynamic.id",
+            "description": "<p>动态id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "user.id",
+            "description": "<p>用户id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "ym",
+            "description": "<p>打赏益米数</p>"
+          }
+        ]
+      }
+    },
+    "filename": "src/main/java/com/leoman/dynamic/api/DynamicApi.java",
+    "groupTitle": "dynamic",
+    "sampleRequest": [
+      {
+        "url": "http://112.74.197.62:8080/zqc_app/api/dynamic/give"
       }
     ]
   },
@@ -412,7 +588,7 @@
     "groupTitle": "dynamic",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/dynamic/collectList"
+        "url": "http://112.74.197.62:8080/zqc_app/api/dynamic/collectList"
       }
     ]
   },
@@ -559,7 +735,7 @@
     "groupTitle": "dynamic",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/dynamic/list"
+        "url": "http://112.74.197.62:8080/zqc_app/api/dynamic/list"
       }
     ]
   },
@@ -609,7 +785,7 @@
     "groupTitle": "dynamic",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/dynamic/operate"
+        "url": "http://112.74.197.62:8080/zqc_app/api/dynamic/operate"
       }
     ]
   },
@@ -672,7 +848,147 @@
     "groupTitle": "dynamic",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/dynamic/praise/userList"
+        "url": "http://112.74.197.62:8080/zqc_app/api/dynamic/praise/userList"
+      }
+    ]
+  },
+  {
+    "type": "post",
+    "url": "/api/product/exchange/codeList",
+    "title": "14、查询个人/团队兑换记录",
+    "version": "0.0.1",
+    "name": "product_codeList",
+    "group": "product",
+    "description": "<p>查询个人/团队兑换记录</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "type",
+            "description": "<p>类型：0-个人，1-团队</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "joinId",
+            "description": "<p>用户id或团队id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "pageNum",
+            "description": "<p>页码</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "pageSize",
+            "description": "<p>每页请求数</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "joinType",
+            "description": "<p>类型：0-个人，1-团队</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "joinId",
+            "description": "<p>用户id或团队id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>手机/团体名称</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "nickname",
+            "description": "<p>昵称</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "productName",
+            "description": "<p>商品名称</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "productType",
+            "description": "<p>商品类型0:实物 1:众筹 2:广告位</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "ym",
+            "description": "<p>所需益米</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "code",
+            "description": "<p>兑换码</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "validStartDate",
+            "description": "<p>开始有效期 type = 0</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "validEndDate",
+            "description": "<p>结束有效期 type = 0</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "address",
+            "description": "<p>兑换地址 type = 0</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "isExchange",
+            "description": "<p>是否已兑换（0-否，1-是）</p>"
+          }
+        ]
+      }
+    },
+    "filename": "src/main/java/com/leoman/product/api/ProductApi.java",
+    "groupTitle": "product",
+    "sampleRequest": [
+      {
+        "url": "http://112.74.197.62:8080/zqc_app/api/product/exchange/codeList"
       }
     ]
   },
@@ -812,7 +1128,7 @@
     "groupTitle": "product",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/product/detail"
+        "url": "http://112.74.197.62:8080/zqc_app/api/product/detail"
       }
     ]
   },
@@ -862,7 +1178,7 @@
     "groupTitle": "product",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/product/exchange"
+        "url": "http://112.74.197.62:8080/zqc_app/api/product/exchange"
       }
     ]
   },
@@ -981,7 +1297,7 @@
     "groupTitle": "product",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/product/list"
+        "url": "http://112.74.197.62:8080/zqc_app/api/product/list"
       }
     ]
   },
@@ -1121,7 +1437,7 @@
     "groupTitle": "product",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/product/wish"
+        "url": "http://112.74.197.62:8080/zqc_app/api/product/wish"
       }
     ]
   },
@@ -1240,7 +1556,7 @@
     "groupTitle": "product",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/product/wish/userList"
+        "url": "http://112.74.197.62:8080/zqc_app/api/product/wish/userList"
       }
     ]
   },
@@ -1401,7 +1717,7 @@
     "groupTitle": "task",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/task/detail"
+        "url": "http://112.74.197.62:8080/zqc_app/api/task/detail"
       }
     ]
   },
@@ -1437,7 +1753,7 @@
     "groupTitle": "task",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/task/join"
+        "url": "http://112.74.197.62:8080/zqc_app/api/task/join"
       }
     ]
   },
@@ -1591,7 +1907,7 @@
     "groupTitle": "task",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/task/list"
+        "url": "http://112.74.197.62:8080/zqc_app/api/task/list"
       }
     ]
   },
@@ -1627,7 +1943,7 @@
     "groupTitle": "task",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/task/upload"
+        "url": "http://112.74.197.62:8080/zqc_app/api/task/upload"
       }
     ]
   },
@@ -1677,7 +1993,7 @@
     "groupTitle": "team",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/team/add"
+        "url": "http://112.74.197.62:8080/zqc_app/api/team/add"
       }
     ]
   },
@@ -1713,7 +2029,7 @@
     "groupTitle": "team",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/team/cover/upload"
+        "url": "http://112.74.197.62:8080/zqc_app/api/team/cover/upload"
       }
     ]
   },
@@ -1749,43 +2065,7 @@
     "groupTitle": "team",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/team/edit"
-      }
-    ]
-  },
-  {
-    "type": "post",
-    "url": "/api/team/join",
-    "title": "02、加入一个团队",
-    "version": "0.0.1",
-    "name": "team_join",
-    "group": "team",
-    "description": "<p>加入一个团队</p>",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "NUMBER",
-            "optional": false,
-            "field": "teamId",
-            "description": "<p>团队id</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "NUMBER",
-            "optional": false,
-            "field": "userId",
-            "description": "<p>用户id</p>"
-          }
-        ]
-      }
-    },
-    "filename": "src/main/java/com/leoman/team/api/TeamApi.java",
-    "groupTitle": "team",
-    "sampleRequest": [
-      {
-        "url": "http://localhost:8081/zqc_app/api/team/join"
+        "url": "http://112.74.197.62:8080/zqc_app/api/team/edit"
       }
     ]
   },
@@ -1794,7 +2074,7 @@
     "url": "/api/team/info",
     "title": "03、获取一个团队的信息",
     "version": "0.0.1",
-    "name": "team_join",
+    "name": "team_info",
     "group": "team",
     "description": "<p>加入一个团队</p>",
     "parameter": {
@@ -1890,7 +2170,155 @@
     "groupTitle": "team",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/team/info"
+        "url": "http://112.74.197.62:8080/zqc_app/api/team/info"
+      }
+    ]
+  },
+  {
+    "type": "post",
+    "url": "/api/team/join",
+    "title": "02、加入一个团队",
+    "version": "0.0.1",
+    "name": "team_join",
+    "group": "team",
+    "description": "<p>加入一个团队</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teamId",
+            "description": "<p>团队id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>用户id</p>"
+          }
+        ]
+      }
+    },
+    "filename": "src/main/java/com/leoman/team/api/TeamApi.java",
+    "groupTitle": "team",
+    "sampleRequest": [
+      {
+        "url": "http://112.74.197.62:8080/zqc_app/api/team/join"
+      }
+    ]
+  },
+  {
+    "type": "post",
+    "url": "/api/team/list",
+    "title": "07、排行榜-获取团队列表",
+    "version": "0.0.1",
+    "name": "team_list",
+    "group": "team",
+    "description": "<p>排行榜-获取团队列表</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "pageNum",
+            "description": "<p>页码</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "pageSize",
+            "description": "<p>每页请求数</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "id",
+            "description": "<p>团队id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>团队名称</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "slogan",
+            "description": "<p>团队口号</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "integral",
+            "description": "<p>积分</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "ym",
+            "description": "<p>益米</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "coverUrl",
+            "description": "<p>封面图片</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "user",
+            "description": "<p>用户对象</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "user.id",
+            "description": "<p>用户id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "user.nickname",
+            "description": "<p>用户昵称</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.avater",
+            "description": "<p>用户头像</p>"
+          }
+        ]
+      }
+    },
+    "filename": "src/main/java/com/leoman/team/api/TeamApi.java",
+    "groupTitle": "team",
+    "sampleRequest": [
+      {
+        "url": "http://112.74.197.62:8080/zqc_app/api/team/list"
       }
     ]
   },
@@ -1926,7 +2354,7 @@
     "groupTitle": "team",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/team/quit"
+        "url": "http://112.74.197.62:8080/zqc_app/api/team/quit"
       }
     ]
   },
@@ -1969,7 +2397,7 @@
     "groupTitle": "user",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/user/task/list"
+        "url": "http://112.74.197.62:8080/zqc_app/api/user/task/list"
       }
     ]
   },
@@ -2041,10 +2469,10 @@
           },
           {
             "group": "Success 200",
-            "type": "String",
+            "type": "NUMBER",
             "optional": false,
             "field": "user.gender",
-            "description": "<p>性别</p>"
+            "description": "<p>性别 男-0，女-1</p>"
           },
           {
             "group": "Success 200",
@@ -2093,7 +2521,91 @@
             "type": "String",
             "optional": false,
             "field": "user.sign",
-            "description": "<p>index0 : 今日是否签到 0:未签到 1:已签到 index1:连续签到次数 index2:总共签到次数</p>"
+            "description": "<p>index0:连续签到次数 index1:总共签到次数</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "teams",
+            "description": "<p>该用户创建的团队信息</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teams.id",
+            "description": "<p>团队id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teams.name",
+            "description": "<p>团队名称</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teams.slogan",
+            "description": "<p>团队口号</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teams.coverUrl",
+            "description": "<p>团队口号</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teams.integral",
+            "description": "<p>积分</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teams.ym",
+            "description": "<p>益米</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "teamUsers",
+            "description": "<p>用户团队信息</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teamUsers.teamId",
+            "description": "<p>团队id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teamUsers.isHeader",
+            "description": "<p>是否为群主（1-是，0-否）</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "userCas",
+            "description": "<p>用户证书</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "userCas.caUrl",
+            "description": "<p>证书路径</p>"
           }
         ]
       }
@@ -2102,7 +2614,7 @@
     "groupTitle": "user",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/user/edit"
+        "url": "http://112.74.197.62:8080/zqc_app/api/user/edit"
       }
     ]
   },
@@ -2242,7 +2754,7 @@
     "groupTitle": "user",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/user/exchange/record"
+        "url": "http://112.74.197.62:8080/zqc_app/api/user/exchange/record"
       }
     ]
   },
@@ -2278,7 +2790,7 @@
     "groupTitle": "user",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/user/head/upload"
+        "url": "http://112.74.197.62:8080/zqc_app/api/user/head/upload"
       }
     ]
   },
@@ -2303,11 +2815,185 @@
         ]
       }
     },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "user",
+            "description": "<p>用户对象</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "user.id",
+            "description": "<p>用户id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.mobile",
+            "description": "<p>手机号</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.nickname",
+            "description": "<p>昵称</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "user.gender",
+            "description": "<p>性别 男-0，女-1</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.avater",
+            "description": "<p>头像</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.status",
+            "description": "<p>状态 0:正常 1:冻结</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.level",
+            "description": "<p>会员等级</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.integral",
+            "description": "<p>积分</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.ym",
+            "description": "<p>益米</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.IDCard",
+            "description": "<p>身份证号</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.sign",
+            "description": "<p>index0:连续签到次数 index1:总共签到次数</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "teams",
+            "description": "<p>该用户创建的团队信息</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teams.id",
+            "description": "<p>团队id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teams.name",
+            "description": "<p>团队名称</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teams.slogan",
+            "description": "<p>团队口号</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teams.coverUrl",
+            "description": "<p>团队口号</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teams.integral",
+            "description": "<p>积分</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teams.ym",
+            "description": "<p>益米</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "teamUsers",
+            "description": "<p>用户团队信息</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teamUsers.teamId",
+            "description": "<p>团队id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teamUsers.isHeader",
+            "description": "<p>是否为群主（1-是，0-否）</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "userCas",
+            "description": "<p>用户证书</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "userCas.caUrl",
+            "description": "<p>证书路径</p>"
+          }
+        ]
+      }
+    },
     "filename": "src/main/java/com/leoman/user/api/UserInfoApi.java",
     "groupTitle": "user",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/user/info"
+        "url": "http://112.74.197.62:8080/zqc_app/api/user/info"
       }
     ]
   },
@@ -2391,7 +3077,217 @@
     "groupTitle": "user",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/user/ym/record"
+        "url": "http://112.74.197.62:8080/zqc_app/api/user/ym/record"
+      }
+    ]
+  },
+  {
+    "type": "post",
+    "url": "/api/user/list",
+    "title": "16、排行榜-个人列表",
+    "version": "0.0.1",
+    "name": "user_list",
+    "group": "user",
+    "description": "<p>排行榜-个人列表</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "pageNum",
+            "description": "<p>页码</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "pageSize",
+            "description": "<p>每页请求数</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "user",
+            "description": "<p>用户对象</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "user.id",
+            "description": "<p>用户id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.mobile",
+            "description": "<p>手机号</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.nickname",
+            "description": "<p>昵称</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "user.gender",
+            "description": "<p>性别 男-0，女-1</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.avater",
+            "description": "<p>头像</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.status",
+            "description": "<p>状态 0:正常 1:冻结</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.level",
+            "description": "<p>会员等级</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.integral",
+            "description": "<p>积分</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.ym",
+            "description": "<p>益米</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.IDCard",
+            "description": "<p>身份证号</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.sign",
+            "description": "<p>index0:连续签到次数 index1:总共签到次数</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "teams",
+            "description": "<p>该用户创建的团队信息</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teams.id",
+            "description": "<p>团队id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teams.name",
+            "description": "<p>团队名称</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teams.slogan",
+            "description": "<p>团队口号</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teams.coverUrl",
+            "description": "<p>团队口号</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teams.integral",
+            "description": "<p>积分</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teams.ym",
+            "description": "<p>益米</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "teamUsers",
+            "description": "<p>用户团队信息</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teamUsers.teamId",
+            "description": "<p>团队id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teamUsers.isHeader",
+            "description": "<p>是否为群主（1-是，0-否）</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "userCas",
+            "description": "<p>用户证书</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "userCas.caUrl",
+            "description": "<p>证书路径</p>"
+          }
+        ]
+      }
+    },
+    "filename": "src/main/java/com/leoman/user/api/UserInfoApi.java",
+    "groupTitle": "user",
+    "sampleRequest": [
+      {
+        "url": "http://112.74.197.62:8080/zqc_app/api/user/list"
       }
     ]
   },
@@ -2508,7 +3404,56 @@
             "type": "String",
             "optional": false,
             "field": "user.sign",
-            "description": "<p>index0 : 今日是否签到 0:未签到 1:已签到 index1:连续签到次数 index2:总共签到次数</p>"
+            "description": "<p>index0:连续签到次数 index1:总共签到次数</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "teams",
+            "description": "<p>该用户创建的团队信息</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teams.id",
+            "description": "<p>团队id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teams.name",
+            "description": "<p>团队名称</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teams.slogan",
+            "description": "<p>团队口号</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teams.coverUrl",
+            "description": "<p>团队口号</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teams.integral",
+            "description": "<p>积分</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "teams.ym",
+            "description": "<p>益米</p>"
           },
           {
             "group": "Success 200",
@@ -2530,6 +3475,20 @@
             "optional": false,
             "field": "teamUsers.isHeader",
             "description": "<p>是否为群主（1-是，0-否）</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "userCas",
+            "description": "<p>用户证书</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "userCas.caUrl",
+            "description": "<p>证书路径</p>"
           }
         ]
       }
@@ -2538,7 +3497,7 @@
     "groupTitle": "user",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/user/login"
+        "url": "http://112.74.197.62:8080/zqc_app/api/user/login"
       }
     ]
   },
@@ -2581,7 +3540,7 @@
     "groupTitle": "user",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/user/password/edit"
+        "url": "http://112.74.197.62:8080/zqc_app/api/user/password/edit"
       }
     ]
   },
@@ -2617,7 +3576,7 @@
     "groupTitle": "user",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/user/password/code/valid"
+        "url": "http://112.74.197.62:8080/zqc_app/api/user/password/code/valid"
       }
     ]
   },
@@ -2653,7 +3612,7 @@
     "groupTitle": "user",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/user/password/reset"
+        "url": "http://112.74.197.62:8080/zqc_app/api/user/password/reset"
       }
     ]
   },
@@ -2710,7 +3669,36 @@
     "groupTitle": "user",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/userInfo/register"
+        "url": "http://112.74.197.62:8080/zqc_app/api/userInfo/register"
+      }
+    ]
+  },
+  {
+    "type": "post",
+    "url": "/api/user/sign",
+    "title": "15、签到",
+    "version": "0.0.1",
+    "name": "user_sign",
+    "group": "user",
+    "description": "<p>签到</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>用户id</p>"
+          }
+        ]
+      }
+    },
+    "filename": "src/main/java/com/leoman/user/api/UserInfoApi.java",
+    "groupTitle": "user",
+    "sampleRequest": [
+      {
+        "url": "http://112.74.197.62:8080/zqc_app/api/user/sign"
       }
     ]
   },
@@ -2746,7 +3734,7 @@
     "groupTitle": "user",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/user/sms/code"
+        "url": "http://112.74.197.62:8080/zqc_app/api/user/sms/code"
       }
     ]
   },
@@ -2921,7 +3909,7 @@
     "groupTitle": "user",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/user/task/list"
+        "url": "http://112.74.197.62:8080/zqc_app/api/user/task/list"
       }
     ]
   },
@@ -3005,7 +3993,7 @@
     "groupTitle": "user",
     "sampleRequest": [
       {
-        "url": "http://localhost:8081/zqc_app/api/user/ym/record"
+        "url": "http://112.74.197.62:8080/zqc_app/api/user/ym/record"
       }
     ]
   }
