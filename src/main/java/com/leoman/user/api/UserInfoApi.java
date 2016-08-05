@@ -304,8 +304,8 @@ public class UserInfoApi extends CommonController{
             WebUtil.printJson(response,new Result(ErrorType.ERROR_CODE_2004));//用户不存在
             return ;
         }
-        Image image = uploadImageService.uploadImage(file);
-        userInfo.setAvater(image.getPath());//设置头像
+        String imageUrl = uploadImageService.uploadFile(file);
+        userInfo.setAvater(imageUrl);//设置头像
         userInfoService.update(userInfo);
         WebUtil.printJson(response,getUserJson(userInfo));
     }
