@@ -13,6 +13,10 @@
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
         <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
     </context:component-scan>
+    <context:component-scan base-package="com.leoman.*.controller">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+        <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+    </context:component-scan>
     <mvc:annotation-driven />
     <mvc:resources mapping="/static/**" location="/static/"/>
     <mvc:resources mapping="/html/**" location="/html/"/>

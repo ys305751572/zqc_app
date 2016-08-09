@@ -8,20 +8,24 @@ import com.leoman.task.entity.Task;
 import com.leoman.task.entity.TaskJoin;
 import com.leoman.task.service.TaskJoinService;
 import com.leoman.task.service.TaskService;
+import com.leoman.task.service.impl.TaskServiceImpl;
 import com.leoman.utils.Result;
 import com.leoman.utils.WebUtil;
+import com.leoman.utils.XlsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.SystemEnvironmentPropertySource;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 
 /**
  * 任务
@@ -79,7 +83,9 @@ public class TaskApi extends CommonController{
         }
         Page<Task> page = taskService.findAll(task, pageNum, pageSize);
         for (Task tk:page.getContent()) {
-            tk.setCoverUrl(Configue.getUploadUrl()+tk.getCoverUrl());
+            if(!StringUtils.isEmpty(tk.getCoverUrl())){
+                tk.setCoverUrl(Configue.getUploadUrl()+tk.getCoverUrl());
+            }
         }
         WebUtil.printJson(response,new Result().success(new PageVO(page)));
     }
@@ -170,7 +176,31 @@ public class TaskApi extends CommonController{
     }
 
 
+    /**
+     * 自己写着练手的，没有此接口
+     * @param request
+     * @param response
+     * @param file
+     * @throws Exception
+     */
+    @RequestMapping("importXls")
+    public void importXls(HttpServletRequest request,
+                       HttpServletResponse response,
+                        @RequestParam(required = false)MultipartFile file) throws Exception {
 
+
+        taskService.importXls(file);
+        WebUtil.printJson(response,new Result().success());
+    }
+
+    @RequestMapping("exportXls")
+    public void exportXls(HttpServletRequest request,
+                          HttpServletResponse response) throws Exception {
+
+
+        taskService.exportXls(Configue.getUploadPath()+"test.xls");
+        WebUtil.printJson(response,new Result().success());
+    }
 
 
 }

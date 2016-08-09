@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -110,9 +111,10 @@ public class DynamicApi extends CommonController{
     @RequestMapping("list")
     public void list(HttpServletRequest request,
                      HttpServletResponse response,
+                     Long userId,
                      @RequestParam(required=true) Integer pageNum,
-                     @RequestParam(required=true) Integer pageSize,
-                     Long userId) throws Exception {
+                     @RequestParam(required=true) Integer pageSize
+                     ) throws Exception {
         Page<Dynamic> page = dynamicService.findAll(pageNum,pageSize);
         for (Dynamic dynamic:page.getContent()) {
             dynamic.setIsPraise(false);
@@ -128,7 +130,9 @@ public class DynamicApi extends CommonController{
             }
 
             for (DynamicImage di:dynamic.getImages()) {
-                di.setImageUrl(Configue.getUploadUrl()+di.getImageUrl());
+                if(!StringUtils.isEmpty(di.getImageUrl())){
+                    di.setImageUrl(Configue.getUploadUrl()+di.getImageUrl());
+                }
             }
         }
         WebUtil.printJson(response,new Result().success(new PageVO(page)));
@@ -230,10 +234,11 @@ public class DynamicApi extends CommonController{
     /**
      * @api {post} /api/dynamic/collectList  06、显示收藏的朋友圈列表
      * @apiVersion 0.0.1
-     * @apiName dynamic.list
+     * @apiName dynamic.collectList
      * @apiGroup dynamic
-     * @apiDescription 获取朋友圈列表
+     * @apiDescription 显示收藏的朋友圈列表
      *
+     * @apiParam {NUMBER} userId 用户id
      * @apiParam {NUMBER} pageNum 页码
      * @apiParam {NUMBER} pageSize 每页请求数
      *

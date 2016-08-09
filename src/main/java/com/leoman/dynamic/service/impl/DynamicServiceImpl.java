@@ -53,7 +53,7 @@ public class DynamicServiceImpl extends GenericManagerImpl<Dynamic,DynamicDao> i
 
     @Override
     public Page<Dynamic> findAll(Integer pageNum, Integer pageSize){
-        return dynamicDao.findAll(null, new PageRequest(pageNum-1, pageSize, Sort.Direction.DESC, "isTop","id"));
+        return dynamicDao.findAll(new PageRequest(pageNum-1, pageSize, Sort.Direction.DESC, "isTop","id"));
     }
 
     @Override

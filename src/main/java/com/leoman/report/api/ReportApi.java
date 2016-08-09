@@ -46,5 +46,4 @@ public class ReportApi extends CommonController{
         WebUtil.printJson(response,new Result().success());
     }
 
-
 }

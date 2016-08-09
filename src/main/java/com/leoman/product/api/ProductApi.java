@@ -213,11 +213,11 @@ public class ProductApi extends CommonController{
     }
 
     /**
-     * @api {post} /api/product/exchange/codeList  14、查询个人/团队兑换记录
+     * @api {post} /api/product/exchange/codeList  06、查询兑换码
      * @apiVersion 0.0.1
      * @apiName product.codeList
      * @apiGroup product
-     * @apiDescription 查询个人/团队兑换记录
+     * @apiDescription 查询兑换码
      *
      * @apiParam {NUMBER} type 类型：0-个人，1-团队
      * @apiParam {NUMBER} joinId 用户id或团队id

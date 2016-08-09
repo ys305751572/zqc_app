@@ -4,13 +4,19 @@ import com.leoman.common.service.impl.GenericManagerImpl;
 import com.leoman.task.dao.TaskDao;
 import com.leoman.task.entity.Task;
 import com.leoman.task.service.TaskService;
+import com.leoman.utils.XlsUtil;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -20,9 +26,12 @@ import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +39,7 @@ import java.util.List;
  * Created by Daisy on 2016/7/25.
  */
 @Service
+@Transactional(readOnly = true)
 public class TaskServiceImpl extends GenericManagerImpl<Task,TaskDao> implements TaskService {
 
     @Autowired
@@ -39,6 +49,35 @@ public class TaskServiceImpl extends GenericManagerImpl<Task,TaskDao> implements
     public Page<Task> findAll(Task task, Integer currentPage, Integer pageSize){
         Specification<Task> spec = buildSpecification(task);
         return taskDao.findAll(spec, new PageRequest(currentPage-1, pageSize, Sort.Direction.ASC, "startDate"));
+    }
+
+    @Override
+    @Transactional
+    public void importXls(MultipartFile file) throws IOException, ParseException {
+        Sheet sheet = XlsUtil.read(file,0);
+        int i = 0;
+        for (Row row : sheet) {
+            if(i>0){
+                Task task = new Task();
+                for(Cell cell : row){
+                    cell.setCellType(Cell.CELL_TYPE_STRING);
+                }
+                task.setType(Integer.valueOf(row.getCell(0).getStringCellValue()));
+                task.setName(row.getCell(1).getStringCellValue());
+                task.setJoinType(Integer.valueOf(row.getCell(2).getStringCellValue()));
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                task.setStartDate(sdf.parse(row.getCell(3).getStringCellValue()).getTime());
+                task.setEndDate(sdf.parse(row.getCell(4).getStringCellValue()).getTime());
+                task.setAddress(row.getCell(5).getStringCellValue());
+                taskDao.save(task);
+            }
+            i++;
+        }
+    }
+
+    @Override
+    public void exportXls(String outPath) throws Exception {
+        XlsUtil.write(outPath);
     }
 
     public Specification<Task> buildSpecification(final Task task) {

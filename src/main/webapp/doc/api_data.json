@@ -184,6 +184,146 @@
   },
   {
     "type": "post",
+    "url": "/api/dynamic/collectList",
+    "title": "06、显示收藏的朋友圈列表",
+    "version": "0.0.1",
+    "name": "dynamic_collectList",
+    "group": "dynamic",
+    "description": "<p>显示收藏的朋友圈列表</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>用户id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "pageNum",
+            "description": "<p>页码</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "pageSize",
+            "description": "<p>每页请求数</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "list",
+            "description": "<p>朋友圈列表集合</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "id",
+            "description": "<p>动态id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "title",
+            "description": "<p>标题</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "content",
+            "description": "<p>内容</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "vedioUrl",
+            "description": "<p>音频路径</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "isTop",
+            "description": "<p>是否置顶（1-是，0-否）</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "status",
+            "description": "<p>状态（0-正常，1-删除）</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "user",
+            "description": "<p>用户对象</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "user.id",
+            "description": "<p>用户id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "user.nickname",
+            "description": "<p>用户昵称</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.avater",
+            "description": "<p>用户头像</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "images",
+            "description": "<p>图片对象</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "images.imageUrl",
+            "description": "<p>图片路径</p>"
+          }
+        ]
+      }
+    },
+    "filename": "src/main/java/com/leoman/dynamic/api/DynamicApi.java",
+    "groupTitle": "dynamic",
+    "sampleRequest": [
+      {
+        "url": "http://112.74.197.62:8080/zqc_app/api/dynamic/collectList"
+      }
+    ]
+  },
+  {
+    "type": "post",
     "url": "/api/dynamic/comment/add",
     "title": "07、评论",
     "version": "0.0.1",
@@ -461,139 +601,6 @@
   },
   {
     "type": "post",
-    "url": "/api/dynamic/collectList",
-    "title": "06、显示收藏的朋友圈列表",
-    "version": "0.0.1",
-    "name": "dynamic_list",
-    "group": "dynamic",
-    "description": "<p>获取朋友圈列表</p>",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "NUMBER",
-            "optional": false,
-            "field": "pageNum",
-            "description": "<p>页码</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "NUMBER",
-            "optional": false,
-            "field": "pageSize",
-            "description": "<p>每页请求数</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "Object",
-            "optional": false,
-            "field": "list",
-            "description": "<p>朋友圈列表集合</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "NUMBER",
-            "optional": false,
-            "field": "id",
-            "description": "<p>动态id</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "title",
-            "description": "<p>标题</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "content",
-            "description": "<p>内容</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "vedioUrl",
-            "description": "<p>音频路径</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "NUMBER",
-            "optional": false,
-            "field": "isTop",
-            "description": "<p>是否置顶（1-是，0-否）</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "status",
-            "description": "<p>状态（0-正常，1-删除）</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object",
-            "optional": false,
-            "field": "user",
-            "description": "<p>用户对象</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "NUMBER",
-            "optional": false,
-            "field": "user.id",
-            "description": "<p>用户id</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "NUMBER",
-            "optional": false,
-            "field": "user.nickname",
-            "description": "<p>用户昵称</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "user.avater",
-            "description": "<p>用户头像</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object",
-            "optional": false,
-            "field": "images",
-            "description": "<p>图片对象</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "images.imageUrl",
-            "description": "<p>图片路径</p>"
-          }
-        ]
-      }
-    },
-    "filename": "src/main/java/com/leoman/dynamic/api/DynamicApi.java",
-    "groupTitle": "dynamic",
-    "sampleRequest": [
-      {
-        "url": "http://112.74.197.62:8080/zqc_app/api/dynamic/collectList"
-      }
-    ]
-  },
-  {
-    "type": "post",
     "url": "/api/dynamic/list",
     "title": "02、获取朋友圈列表",
     "version": "0.0.1",
@@ -855,11 +862,11 @@
   {
     "type": "post",
     "url": "/api/product/exchange/codeList",
-    "title": "14、查询个人/团队兑换记录",
+    "title": "06、查询兑换码",
     "version": "0.0.1",
     "name": "product_codeList",
     "group": "product",
-    "description": "<p>查询个人/团队兑换记录</p>",
+    "description": "<p>查询兑换码</p>",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -1557,6 +1564,42 @@
     "sampleRequest": [
       {
         "url": "http://112.74.197.62:8080/zqc_app/api/product/wish/userList"
+      }
+    ]
+  },
+  {
+    "type": "post",
+    "url": "/api/report/add",
+    "title": "01、新增意见反馈",
+    "version": "0.0.1",
+    "name": "report_add",
+    "group": "report",
+    "description": "<p>新增意见反馈</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>用户id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "NUMBER",
+            "optional": false,
+            "field": "content",
+            "description": "<p>内容</p>"
+          }
+        ]
+      }
+    },
+    "filename": "src/main/java/com/leoman/report/api/ReportApi.java",
+    "groupTitle": "report",
+    "sampleRequest": [
+      {
+        "url": "http://112.74.197.62:8080/zqc_app/api/report/add"
       }
     ]
   },
